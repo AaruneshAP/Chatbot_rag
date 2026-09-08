@@ -1,0 +1,31 @@
+{
+  "pandas": {
+    "source_library": "pandas",
+    "url": "https://pandas.pydata.org/docs/pandas.zip",
+    "format": "html",
+    "download_timestamp": "2026-09-02T07:18:21.649816+00:00",
+    "doc_version": "3.0.5",
+    "file_path": "data\\raw\\pandas_html",
+    "file_size_bytes": 40008034,
+    "html_file_count": 3893
+  },
+  "xgboost": {
+    "source_library": "xgboost",
+    "url": "https://xgboost.readthedocs.io/_/downloads/en/stable/pdf/",
+    "format": "pdf",
+    "download_timestamp": "2026-09-02T07:18:23.014018+00:00",
+    "doc_version": "stable",
+    "file_path": "data\\raw\\xgboost.pdf",
+    "file_size_bytes": 2647985
+  },
+  "sklearn": {
+    "source_library": "sklearn",
+    "url": "https://scikit-learn.org/stable/_downloads/scikit-learn-docs.zip",
+    "format": "html",
+    "download_timestamp": "2026-09-02T07:18:39.292181+00:00",
+    "doc_version": "1.9",
+    "file_path": "data\\raw\\sklearn_html",
+    "file_size_bytes": 97334015,
+    "html_file_count": 1121
+  }
+}

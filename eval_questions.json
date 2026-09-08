@@ -1,0 +1,146 @@
+[
+  {
+    "id": "q1",
+    "question": "What's the difference between .loc and .iloc for indexing?",
+    "expected_library": "pandas",
+    "topic": "indexing/selection"
+  },
+  {
+    "id": "q2",
+    "question": "How do you handle duplicate rows with drop_duplicates, and what does the keep parameter control?",
+    "expected_library": "pandas",
+    "topic": "duplicates handling"
+  },
+  {
+    "id": "q3",
+    "question": "What's the difference between merge and join?",
+    "expected_library": "pandas",
+    "topic": "combining datasets"
+  },
+  {
+    "id": "q4",
+    "question": "How does groupby handle NaN values in the grouping column by default?",
+    "expected_library": "pandas",
+    "topic": "groupby behavior"
+  },
+  {
+    "id": "q5",
+    "question": "What does pd.cut do differently from pd.qcut?",
+    "expected_library": "pandas",
+    "topic": "binning"
+  },
+  {
+    "id": "q6",
+    "question": "How do you resample a time series to a different frequency, and what's the role of the closed parameter?",
+    "expected_library": "pandas",
+    "topic": "time series resampling"
+  },
+  {
+    "id": "q7",
+    "question": "What's the difference between copy() and a view in pandas, and why does it matter for SettingWithCopyWarning?",
+    "expected_library": "pandas",
+    "topic": "copy-on-write/memory"
+  },
+  {
+    "id": "q8",
+    "question": "How does pivot_table handle duplicate entries differently from pivot?",
+    "expected_library": "pandas",
+    "topic": "reshaping"
+  },
+  {
+    "id": "q9",
+    "question": "What's the difference between StandardScaler and MinMaxScaler?",
+    "expected_library": "sklearn",
+    "topic": "preprocessing"
+  },
+  {
+    "id": "q10",
+    "question": "How does GroupKFold differ from regular KFold, and when should you use it?",
+    "expected_library": "sklearn",
+    "topic": "cross-validation"
+  },
+  {
+    "id": "q11",
+    "question": "What does the class_weight='balanced' parameter do internally?",
+    "expected_library": "sklearn",
+    "topic": "imbalanced classification"
+  },
+  {
+    "id": "q12",
+    "question": "How does Pipeline prevent data leakage compared to manually fitting transformers?",
+    "expected_library": "sklearn",
+    "topic": "pipelines"
+  },
+  {
+    "id": "q13",
+    "question": "What's the difference between predict_proba and decision_function?",
+    "expected_library": "sklearn",
+    "topic": "classifier outputs"
+  },
+  {
+    "id": "q14",
+    "question": "How does GridSearchCV's refit parameter behave with multiple scoring metrics?",
+    "expected_library": "sklearn",
+    "topic": "hyperparameter tuning"
+  },
+  {
+    "id": "q15",
+    "question": "What's the difference between L1 and L2 regularization in LogisticRegression's penalty parameter?",
+    "expected_library": "sklearn",
+    "topic": "regularization"
+  },
+  {
+    "id": "q16",
+    "question": "How does SimpleImputer handle categorical vs numerical missing values differently?",
+    "expected_library": "sklearn",
+    "topic": "imputation"
+  },
+  {
+    "id": "q17",
+    "question": "What does early_stopping_rounds do, and how does it interact with eval_set?",
+    "expected_library": "xgboost",
+    "topic": "training control"
+  },
+  {
+    "id": "q18",
+    "question": "What's the difference between gbtree and gblinear boosters?",
+    "expected_library": "xgboost",
+    "topic": "booster types"
+  },
+  {
+    "id": "q19",
+    "question": "How does XGBoost's built-in handling of missing values work?",
+    "expected_library": "xgboost",
+    "topic": "missing values"
+  },
+  {
+    "id": "q20",
+    "question": "What does the scale_pos_weight parameter do for imbalanced classification?",
+    "expected_library": "xgboost",
+    "topic": "imbalanced classification"
+  },
+  {
+    "id": "q21",
+    "question": "What's the difference between max_depth and max_leaves for controlling tree complexity?",
+    "expected_library": "xgboost",
+    "topic": "regularization/tree structure"
+  },
+  {
+    "id": "q22",
+    "question": "How does eval_metric differ from the training objective?",
+    "expected_library": "xgboost",
+    "topic": "objectives vs metrics"
+  },
+  {
+    "id": "q23",
+    "question": "What does the subsample parameter do, and how does it relate to overfitting?",
+    "expected_library": "xgboost",
+    "topic": "regularization"
+  },
+  {
+    "id": "q24",
+    "question": "How do you interpret feature_importances_ — what does the default importance type measure?",
+    "expected_library": "xgboost",
+    "topic": "interpretability"
+  }
+]

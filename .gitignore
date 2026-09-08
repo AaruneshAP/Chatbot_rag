@@ -1,0 +1,24 @@
+# Raw downloads and generated vector database
+# (reproducible via fetch_docs.py, ingest.py, and embed.py)
+data/raw/*
+!data/raw/manifest.json
+data/chroma_db/
+data/processed/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

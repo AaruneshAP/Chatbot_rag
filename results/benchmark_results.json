@@ -1,0 +1,2852 @@
+{
+  "num_questions": 24,
+  "evaluation_limitation_note": "Recall@k uses a library-level proxy: a hit is recorded if a chunk from the expected_library is present within the top-k retrieved set. Exact golden chunk-level relevance is not evaluated because ground truth chunk IDs were not human-annotated.",
+  "overall_metrics": {
+    "vector_only": {
+      "recall_at_1": 0.7917,
+      "recall_at_3": 0.8333,
+      "recall_at_5": 0.8333,
+      "mrr": 0.8125
+    },
+    "hybrid_bm25_vector": {
+      "recall_at_1": 0.75,
+      "recall_at_3": 0.8333,
+      "recall_at_5": 0.8333,
+      "mrr": 0.7847
+    }
+  },
+  "per_question": [
+    {
+      "id": "q1",
+      "question": "What's the difference between .loc and .iloc for indexing?",
+      "expected_library": "pandas",
+      "topic": "indexing/selection",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_getting_started_intro_tutorials_03_subset_data_html_c7",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/intro_tutorials/03_subset_data.html",
+            "score": 0.7208564877510071,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_whatsnew_v0_11_0_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.11.0.html",
+            "score": 0.5831773281097412,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_user_guide_indexing_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/indexing.html",
+            "score": 0.5256636142730713,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_whatsnew_v0_18_0_html_c34",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.18.0.html",
+            "score": 0.5048487186431885,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_whatsnew_v0_20_0_html_c38",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.20.0.html",
+            "score": 0.493823766708374,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_getting_started_intro_tutorials_03_subset_data_html_c7",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/intro_tutorials/03_subset_data.html",
+            "rrf_score": 0.03252247488101534,
+            "bm25_rank": 2,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_whatsnew_v0_18_0_html_c34",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.18.0.html",
+            "rrf_score": 0.032018442622950824,
+            "bm25_rank": 1,
+            "vector_rank": 4,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_user_guide_indexing_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/indexing.html",
+            "rrf_score": 0.031024531024531024,
+            "bm25_rank": 6,
+            "vector_rank": 3,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_whatsnew_v0_11_0_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.11.0.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_user_guide_dsintro_html_c19",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/dsintro.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q2",
+      "question": "How do you handle duplicate rows with drop_duplicates, and what does the keep parameter control?",
+      "expected_library": "pandas",
+      "topic": "duplicates handling",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_Series_drop_duplicates_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.drop_duplicates.html",
+            "score": 0.601880669593811,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_reference_api_pandas_Index_drop_duplicates_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Index.drop_duplicates.html",
+            "score": 0.5916454792022705,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_Series_drop_duplicates_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.drop_duplicates.html",
+            "score": 0.53346848487854,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_Index_duplicated_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Index.duplicated.html",
+            "score": 0.5229054689407349,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_drop_duplicates_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.drop_duplicates.html",
+            "score": 0.522456169128418,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_Series_drop_duplicates_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.drop_duplicates.html",
+            "rrf_score": 0.032266458495966696,
+            "bm25_rank": 1,
+            "vector_rank": 3,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_reference_api_pandas_Index_drop_duplicates_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Index.drop_duplicates.html",
+            "rrf_score": 0.03200204813108039,
+            "bm25_rank": 3,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_drop_duplicates_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.drop_duplicates.html",
+            "rrf_score": 0.030090497737556562,
+            "bm25_rank": 8,
+            "vector_rank": 5,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_duplicated_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.duplicated.html",
+            "rrf_score": 0.029437229437229435,
+            "bm25_rank": 10,
+            "vector_rank": 6,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_whatsnew_v0_17_0_html_c13",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.17.0.html",
+            "rrf_score": 0.02919863597612958,
+            "bm25_rank": 9,
+            "vector_rank": 8,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q3",
+      "question": "What's the difference between merge and join?",
+      "expected_library": "pandas",
+      "topic": "combining datasets",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_merge_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.merge.html",
+            "score": 0.5283870100975037,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_merge_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.merge.html",
+            "score": 0.5182514786720276,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_merging_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "merging.html",
+            "score": 0.4865609407424927,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_getting_started_comparison_comparison_with_stata_html_c16",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/comparison/comparison_with_stata.html",
+            "score": 0.48586440086364746,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_getting_started_comparison_comparison_with_sql_html_c10",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/comparison/comparison_with_sql.html",
+            "score": 0.46159517765045166,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_merge_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.merge.html",
+            "rrf_score": 0.031544957774465976,
+            "bm25_rank": 6,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_merge_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.merge.html",
+            "rrf_score": 0.031054405392392875,
+            "bm25_rank": 7,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_getting_started_intro_tutorials_08_combine_dataframes_html_c7",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/intro_tutorials/08_combine_dataframes.html",
+            "rrf_score": 0.029418126757516764,
+            "bm25_rank": 9,
+            "vector_rank": 7,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_join_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.join.html",
+            "rrf_score": 0.028991596638655463,
+            "bm25_rank": 10,
+            "vector_rank": 8,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_whatsnew_v2_2_0_html_c7",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v2.2.0.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q4",
+      "question": "How does groupby handle NaN values in the grouping column by default?",
+      "expected_library": "pandas",
+      "topic": "groupby behavior",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_whatsnew_v0_20_0_html_c3",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.20.0.html",
+            "score": 0.6886826753616333,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_getting_started_comparison_comparison_with_sql_html_c7",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/comparison/comparison_with_sql.html",
+            "score": 0.6755953431129456,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_whatsnew_v0_22_0_html_c2",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.22.0.html",
+            "score": 0.6662669777870178,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_user_guide_groupby_html_c38",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/groupby.html",
+            "score": 0.6642935276031494,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_api_typing_DataFrameGroupBy_ffill_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.api.typing.DataFrameGroupBy.ffill.html",
+            "score": 0.6509832143783569,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_whatsnew_v1_4_0_html_c35",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v1.4.0.html",
+            "rrf_score": 0.029418126757516764,
+            "bm25_rank": 7,
+            "vector_rank": 9,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_whatsnew_v2_0_0_html_c61",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v2.0.0.html",
+            "rrf_score": 0.029418126757516764,
+            "bm25_rank": 9,
+            "vector_rank": 7,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_whatsnew_v1_0_0_html_c35",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v1.0.0.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_whatsnew_v0_20_0_html_c3",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.20.0.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_getting_started_intro_tutorials_06_calculate_statistics_html_c3",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/intro_tutorials/06_calculate_statistics.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q5",
+      "question": "What does pd.cut do differently from pd.qcut?",
+      "expected_library": "pandas",
+      "topic": "binning",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_whatsnew_v0_21_0_html_c8",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.21.0.html",
+            "score": 0.3862823247909546,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_user_guide_advanced_html_c39",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/advanced.html",
+            "score": 0.366321325302124,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_read_csv_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.read_csv.html",
+            "score": 0.3607504963874817,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_clip_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.clip.html",
+            "score": 0.3553675413131714,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_whatsnew_v0_19_0_html_c49",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.19.0.html",
+            "score": 0.35182273387908936,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_user_guide_advanced_html_c39",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/advanced.html",
+            "rrf_score": 0.03252247488101534,
+            "bm25_rank": 1,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_whatsnew_v0_21_0_html_c8",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.21.0.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_Interval_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Interval.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_user_guide_basics_html_c25",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/basics.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_read_csv_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.read_csv.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": null,
+            "vector_rank": 3,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q6",
+      "question": "How do you resample a time series to a different frequency, and what's the role of the closed parameter?",
+      "expected_library": "pandas",
+      "topic": "time series resampling",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_resample_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.resample.html",
+            "score": 0.6389263868331909,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_reference_api_pandas_Series_resample_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.resample.html",
+            "score": 0.6134840250015259,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_Series_asfreq_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.asfreq.html",
+            "score": 0.6020864248275757,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_api_typing_Resampler_asfreq_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.api.typing.Resampler.asfreq.html",
+            "score": 0.6003484725952148,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_asfreq_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.asfreq.html",
+            "score": 0.5913973450660706,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_Series_resample_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.resample.html",
+            "rrf_score": 0.03252247488101534,
+            "bm25_rank": 1,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_resample_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.resample.html",
+            "rrf_score": 0.03252247488101534,
+            "bm25_rank": 2,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_user_guide_timeseries_html_c63",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/timeseries.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_Series_asfreq_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.asfreq.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": null,
+            "vector_rank": 3,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_developers_contributing_html_c28",
+            "source_library": "sklearn",
+            "page_or_section": "developers/contributing.html",
+            "rrf_score": 0.015625,
+            "bm25_rank": 4,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q7",
+      "question": "What's the difference between copy() and a view in pandas, and why does it matter for SettingWithCopyWarning?",
+      "expected_library": "pandas",
+      "topic": "copy-on-write/memory",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_whatsnew_v3_0_0_html_c2",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v3.0.0.html",
+            "score": 0.7671342492103577,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_whatsnew_v2_3_0_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v2.3.0.html",
+            "score": 0.7207319736480713,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_whatsnew_v2_2_0_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v2.2.0.html",
+            "score": 0.7083346247673035,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_copy_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.copy.html",
+            "score": 0.6837817430496216,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_Series_copy_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Series.copy.html",
+            "score": 0.6741439700126648,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_whatsnew_v3_0_0_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v3.0.0.html",
+            "rrf_score": 0.030834914611005692,
+            "bm25_rank": 2,
+            "vector_rank": 8,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_linear_model_plot_quantile_regression_html_c5",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/linear_model/plot_quantile_regression.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_whatsnew_v3_0_0_html_c2",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v3.0.0.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_whatsnew_v2_3_0_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v2.3.0.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_development_contributing_docstring_html_c7",
+            "source_library": "pandas",
+            "page_or_section": "development/contributing_docstring.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q8",
+      "question": "How does pivot_table handle duplicate entries differently from pivot?",
+      "expected_library": "pandas",
+      "topic": "reshaping",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_pivot_html_c3",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.pivot.html",
+            "score": 0.5644511580467224,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_whatsnew_v0_20_0_html_c33",
+            "source_library": "pandas",
+            "page_or_section": "whatsnew/v0.20.0.html",
+            "score": 0.5546658039093018,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_pivot_html_c3",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.pivot.html",
+            "score": 0.5471032857894897,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_getting_started_comparison_comparison_with_spreadsheets_html_c18",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/comparison/comparison_with_spreadsheets.html",
+            "score": 0.5259566307067871,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_wide_to_long_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.wide_to_long.html",
+            "score": 0.5224922895431519,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_pivot_html_c3",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.pivot.html",
+            "rrf_score": 0.031544957774465976,
+            "bm25_rank": 6,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "pandas_reference_api_pandas_wide_to_long_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.wide_to_long.html",
+            "rrf_score": 0.031009615384615385,
+            "bm25_rank": 4,
+            "vector_rank": 5,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_pivot_html_c3",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.pivot.html",
+            "rrf_score": 0.03057889822595705,
+            "bm25_rank": 8,
+            "vector_rank": 3,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_user_guide_reshaping_html_c2",
+            "source_library": "pandas",
+            "page_or_section": "user_guide/reshaping.html",
+            "rrf_score": 0.030536130536130537,
+            "bm25_rank": 5,
+            "vector_rank": 6,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_pivot_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.pivot.html",
+            "rrf_score": 0.03036576949620428,
+            "bm25_rank": 3,
+            "vector_rank": 9,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q9",
+      "question": "What's the difference between StandardScaler and MinMaxScaler?",
+      "expected_library": "sklearn",
+      "topic": "preprocessing",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_preprocessing_html_c3",
+            "source_library": "sklearn",
+            "page_or_section": "modules/preprocessing.html",
+            "score": 0.5652890801429749,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_preprocessing_plot_all_scaling_html_c6",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/preprocessing/plot_all_scaling.html",
+            "score": 0.545324981212616,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_generated_sklearn_preprocessing_StandardScaler_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.preprocessing.StandardScaler.html",
+            "score": 0.5280569791793823,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_generated_sklearn_preprocessing_MinMaxScaler_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.preprocessing.MinMaxScaler.html",
+            "score": 0.5139090418815613,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_generated_sklearn_preprocessing_RobustScaler_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.preprocessing.RobustScaler.html",
+            "score": 0.5123910903930664,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_preprocessing_plot_all_scaling_html_c6",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/preprocessing/plot_all_scaling.html",
+            "rrf_score": 0.03225806451612903,
+            "bm25_rank": 2,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_generated_sklearn_preprocessing_MinMaxScaler_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.preprocessing.MinMaxScaler.html",
+            "rrf_score": 0.03055037313432836,
+            "bm25_rank": 7,
+            "vector_rank": 4,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_outlier_detection_bench_html_c9",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_outlier_detection_bench.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_preprocessing_html_c3",
+            "source_library": "sklearn",
+            "page_or_section": "modules/preprocessing.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_preprocessing_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "modules/preprocessing.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q10",
+      "question": "How does GroupKFold differ from regular KFold, and when should you use it?",
+      "expected_library": "sklearn",
+      "topic": "cross-validation",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_StratifiedGroupKFold_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.StratifiedGroupKFold.html",
+            "score": 0.5726311206817627,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_GroupKFold_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.GroupKFold.html",
+            "score": 0.4573538899421692,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_StratifiedGroupKFold_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.StratifiedGroupKFold.html",
+            "score": 0.44146454334259033,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_cross_validation_html_c14",
+            "source_library": "sklearn",
+            "page_or_section": "modules/cross_validation.html",
+            "score": 0.43941402435302734,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_GroupShuffleSplit_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.GroupShuffleSplit.html",
+            "score": 0.4199763536453247,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_cross_validation_html_c15",
+            "source_library": "sklearn",
+            "page_or_section": "modules/cross_validation.html",
+            "rrf_score": 0.03128054740957967,
+            "bm25_rank": 2,
+            "vector_rank": 6,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_cv_indices_html_c3",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_cv_indices.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_StratifiedGroupKFold_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.StratifiedGroupKFold.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_GroupKFold_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.GroupKFold.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "pandas_reference_api_pandas_DataFrame_replace_html_c1",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.DataFrame.replace.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q11",
+      "question": "What does the class_weight='balanced' parameter do internally?",
+      "expected_library": "sklearn",
+      "topic": "imbalanced classification",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_glossary_html_c31",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "score": 0.6699607968330383,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_9_0_html_c17",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_9_0.html",
+            "score": 0.6480236053466797,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_cost_sensitive_learning_html_c54",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_cost_sensitive_learning.html",
+            "score": 0.6447865962982178,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_feature_transformation_html_c35",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_feature_transformation.html",
+            "score": 0.6333925724029541,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_7_0_html_c4",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_7_0.html",
+            "score": 0.63186115026474,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_generated_sklearn_utils_class_weight_compute_class_weight_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.utils.class_weight.compute_class_weight.html",
+            "rrf_score": 0.030621785881252923,
+            "bm25_rank": 2,
+            "vector_rank": 9,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_generated_sklearn_svm_LinearSVC_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.svm.LinearSVC.html",
+            "rrf_score": 0.02877846790890269,
+            "bm25_rank": 9,
+            "vector_rank": 10,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_roc_curve_visualization_api_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_roc_curve_visualization_api.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_glossary_html_c31",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_9_0_html_c17",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_9_0.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q12",
+      "question": "How does Pipeline prevent data leakage compared to manually fitting transformers?",
+      "expected_library": "sklearn",
+      "topic": "pipelines",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_applications_plot_cyclical_feature_engineering_html_c162",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/applications/plot_cyclical_feature_engineering.html",
+            "score": 0.5293503403663635,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_applications_plot_cyclical_feature_engineering_html_c32",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/applications/plot_cyclical_feature_engineering.html",
+            "score": 0.5267255306243896,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "score": 0.5117117166519165,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_common_pitfalls_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "common_pitfalls.html",
+            "score": 0.5020236968994141,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_applications_plot_cyclical_feature_engineering_html_c134",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/applications/plot_cyclical_feature_engineering.html",
+            "score": 0.49815094470977783,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_common_pitfalls_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "common_pitfalls.html",
+            "rrf_score": 0.031754032258064516,
+            "bm25_rank": 2,
+            "vector_rank": 4,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_getting_started_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "getting_started.html",
+            "rrf_score": 0.031544957774465976,
+            "bm25_rank": 1,
+            "vector_rank": 6,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "rrf_score": 0.03057889822595705,
+            "bm25_rank": 8,
+            "vector_rank": 3,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_applications_plot_cyclical_feature_engineering_html_c162",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/applications/plot_cyclical_feature_engineering.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_applications_plot_cyclical_feature_engineering_html_c32",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/applications/plot_cyclical_feature_engineering.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q13",
+      "question": "What's the difference between predict_proba and decision_function?",
+      "expected_library": "sklearn",
+      "topic": "classifier outputs",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_calibration_html_c3",
+            "source_library": "sklearn",
+            "page_or_section": "modules/calibration.html",
+            "score": 0.6098824739456177,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_model_evaluation_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/model_evaluation.html",
+            "score": 0.5781130790710449,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_generated_sklearn_svm_NuSVC_html_c6",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.svm.NuSVC.html",
+            "score": 0.5509864091873169,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_classification_threshold_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/classification_threshold.html",
+            "score": 0.5472532510757446,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_glossary_html_c29",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "score": 0.5198764801025391,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_classification_threshold_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/classification_threshold.html",
+            "rrf_score": 0.031754032258064516,
+            "bm25_rank": 2,
+            "vector_rank": 4,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_whats_new_v1_4_html_c17",
+            "source_library": "sklearn",
+            "page_or_section": "whats_new/v1.4.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_calibration_html_c3",
+            "source_library": "sklearn",
+            "page_or_section": "modules/calibration.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_model_evaluation_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/model_evaluation.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_whats_new_v0_21_html_c17",
+            "source_library": "sklearn",
+            "page_or_section": "whats_new/v0.21.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q14",
+      "question": "How does GridSearchCV's refit parameter behave with multiple scoring metrics?",
+      "expected_library": "sklearn",
+      "topic": "hyperparameter tuning",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_multi_metric_evaluation_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_multi_metric_evaluation.html",
+            "score": 0.8034337759017944,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_grid_search_html_c13",
+            "source_library": "sklearn",
+            "page_or_section": "modules/grid_search.html",
+            "score": 0.8022589683532715,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c37",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "score": 0.8021381497383118,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_compose_plot_compare_reduction_html_c3",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/compose/plot_compare_reduction.html",
+            "score": 0.7889648675918579,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_GridSearchCV_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.GridSearchCV.html",
+            "score": 0.7573208808898926,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_multi_metric_evaluation_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_multi_metric_evaluation.html",
+            "rrf_score": 0.03278688524590164,
+            "bm25_rank": 1,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_grid_search_html_c13",
+            "source_library": "sklearn",
+            "page_or_section": "modules/grid_search.html",
+            "rrf_score": 0.03225806451612903,
+            "bm25_rank": 2,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_generated_sklearn_model_selection_GridSearchCV_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.model_selection.GridSearchCV.html",
+            "rrf_score": 0.030309988518943745,
+            "bm25_rank": 7,
+            "vector_rank": 5,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_grid_search_digits_html_c8",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_grid_search_digits.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c37",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": null,
+            "vector_rank": 3,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q15",
+      "question": "What's the difference between L1 and L2 regularization in LogisticRegression's penalty parameter?",
+      "expected_library": "sklearn",
+      "topic": "regularization",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_linear_model_plot_logistic_path_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/linear_model/plot_logistic_path.html",
+            "score": 0.7116599678993225,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_grid_search_refit_callable_html_c15",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_grid_search_refit_callable.html",
+            "score": 0.6840758323669434,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_display_object_visualization_html_c5",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_display_object_visualization.html",
+            "score": 0.682704508304596,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_cost_sensitive_learning_html_c52",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_cost_sensitive_learning.html",
+            "score": 0.6801396608352661,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_1_0_html_c16",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_1_0.html",
+            "score": 0.6751958131790161,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_cost_sensitive_learning_html_c52",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_cost_sensitive_learning.html",
+            "rrf_score": 0.03125,
+            "bm25_rank": 4,
+            "vector_rank": 4,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_linear_model_plot_logistic_path_html_c2",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/linear_model/plot_logistic_path.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_compose_plot_column_transformer_mixed_types_html_c35",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/compose/plot_column_transformer_mixed_types.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_grid_search_refit_callable_html_c15",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_grid_search_refit_callable.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q16",
+      "question": "How does SimpleImputer handle categorical vs numerical missing values differently?",
+      "expected_library": "sklearn",
+      "topic": "imputation",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c24",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "score": 0.5645743608474731,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_inspection_plot_permutation_importance_html_c27",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/inspection/plot_permutation_importance.html",
+            "score": 0.555205225944519,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_inspection_plot_permutation_importance_html_c9",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/inspection/plot_permutation_importance.html",
+            "score": 0.5280255079269409,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_impute_html_c6",
+            "source_library": "sklearn",
+            "page_or_section": "modules/impute.html",
+            "score": 0.5217477083206177,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_whats_new_v0_20_html_c30",
+            "source_library": "sklearn",
+            "page_or_section": "whats_new/v0.20.html",
+            "score": 0.5004181265830994,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c24",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "rrf_score": 0.03177805800756621,
+            "bm25_rank": 5,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c20",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "rrf_score": 0.030834914611005692,
+            "bm25_rank": 2,
+            "vector_rank": 8,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_inspection_plot_permutation_importance_html_c27",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/inspection/plot_permutation_importance.html",
+            "rrf_score": 0.0304147465437788,
+            "bm25_rank": 10,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_impute_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/impute.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_miscellaneous_plot_pipeline_display_html_c35",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/miscellaneous/plot_pipeline_display.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q17",
+      "question": "What does early_stopping_rounds do, and how does it interact with eval_set?",
+      "expected_library": "xgboost",
+      "topic": "training control",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 2,
+          "rr": 0.5,
+          "hit_at_1": 0,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_generated_sklearn_ensemble_HistGradientBoostingRegressor_html_c4",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html",
+            "score": 0.5644342303276062,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "xgboost_p303_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_303",
+            "score": 0.5550125241279602,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_gradient_boosting_categorical_html_c47",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_gradient_boosting_categorical.html",
+            "score": 0.5243188142776489,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_monotonic_constraints_html_c5",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_monotonic_constraints.html",
+            "score": 0.5182391405105591,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_monotonic_constraints_html_c11",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_monotonic_constraints.html",
+            "score": 0.5180955529212952,
+            "hit": false
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 3,
+          "rr": 0.3333333333333333,
+          "hit_at_1": 0,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "pandas_getting_started_intro_tutorials_index_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/intro_tutorials/index.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_generated_sklearn_ensemble_HistGradientBoostingRegressor_html_c4",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "xgboost_p45_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_45",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "xgboost_p303_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_303",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_text_plot_document_classification_20newsgroups_html_c7",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/text/plot_document_classification_20newsgroups.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q18",
+      "question": "What's the difference between gbtree and gblinear boosters?",
+      "expected_library": "xgboost",
+      "topic": "booster types",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "xgboost_p140_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_140",
+            "score": 0.685546338558197,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "xgboost_p404_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_404",
+            "score": 0.5210957527160645,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_ensemble_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/ensemble.html",
+            "score": 0.5081710815429688,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "xgboost_p533_c2",
+            "source_library": "xgboost",
+            "page_or_section": "page_533",
+            "score": 0.5013322830200195,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "xgboost_p455_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_455",
+            "score": 0.49483972787857056,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "xgboost_p140_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_140",
+            "rrf_score": 0.03278688524590164,
+            "bm25_rank": 1,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "xgboost_p140_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_140",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "xgboost_p404_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_404",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "pandas_reference_api_pandas_Timestamp_utcoffset_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.Timestamp.utcoffset.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_ensemble_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/ensemble.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": null,
+            "vector_rank": 3,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q19",
+      "question": "How does XGBoost's built-in handling of missing values work?",
+      "expected_library": "xgboost",
+      "topic": "missing values",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "xgboost_p136_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_136",
+            "score": 0.6126824617385864,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "xgboost_p173_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_173",
+            "score": 0.6008521914482117,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "xgboost_p270_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_270",
+            "score": 0.5814052820205688,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "xgboost_p466_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_466",
+            "score": 0.5729424953460693,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "xgboost_p286_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_286",
+            "score": 0.5588776469230652,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 2,
+          "rr": 0.5,
+          "hit_at_1": 0,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_roadmap_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "roadmap.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "xgboost_p136_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_136",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_reference_api_pandas_NaT_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "reference/api/pandas.NaT.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "xgboost_p173_c1",
+            "source_library": "xgboost",
+            "page_or_section": "page_173",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": true
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_tree_html_c12",
+            "source_library": "sklearn",
+            "page_or_section": "modules/tree.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q20",
+      "question": "What does the scale_pos_weight parameter do for imbalanced classification?",
+      "expected_library": "xgboost",
+      "topic": "imbalanced classification",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_9_0_html_c17",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_9_0.html",
+            "score": 0.5023767948150635,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_cost_sensitive_learning_html_c54",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_cost_sensitive_learning.html",
+            "score": 0.49432653188705444,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_svm_html_c6",
+            "source_library": "sklearn",
+            "page_or_section": "modules/svm.html",
+            "score": 0.49127984046936035,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_feature_transformation_html_c35",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_feature_transformation.html",
+            "score": 0.4909266233444214,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_glossary_html_c31",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "score": 0.48998355865478516,
+            "hit": false
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_glossary_html_c12",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_9_0_html_c17",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_9_0.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_calibration_html_c5",
+            "source_library": "sklearn",
+            "page_or_section": "modules/calibration.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_cost_sensitive_learning_html_c54",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_cost_sensitive_learning.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_text_plot_document_classification_20newsgroups_html_c7",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/text/plot_document_classification_20newsgroups.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q21",
+      "question": "What's the difference between max_depth and max_leaves for controlling tree complexity?",
+      "expected_library": "xgboost",
+      "topic": "regularization/tree structure",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_monotonic_constraints_html_c8",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_monotonic_constraints.html",
+            "score": 0.6611781120300293,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_tree_plot_tree_regression_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/tree/plot_tree_regression.html",
+            "score": 0.6487259268760681,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_gradient_boosting_categorical_html_c44",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_gradient_boosting_categorical.html",
+            "score": 0.6463482975959778,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_generated_sklearn_ensemble_ExtraTreesClassifier_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.ensemble.ExtraTreesClassifier.html",
+            "score": 0.6140531301498413,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_generated_sklearn_tree_DecisionTreeClassifier_html_c7",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.tree.DecisionTreeClassifier.html",
+            "score": 0.6134461760520935,
+            "hit": false
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_generated_sklearn_tree_DecisionTreeClassifier_html_c4",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.tree.DecisionTreeClassifier.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_monotonic_constraints_html_c8",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_monotonic_constraints.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_generated_sklearn_tree_ExtraTreeClassifier_html_c4",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.tree.ExtraTreeClassifier.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_tree_plot_tree_regression_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/tree/plot_tree_regression.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_glossary_html_c12",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q22",
+      "question": "How does eval_metric differ from the training objective?",
+      "expected_library": "xgboost",
+      "topic": "objectives vs metrics",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "xgboost_p422_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_422",
+            "score": 0.5328608155250549,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_glossary_html_c8",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "score": 0.5051603317260742,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "xgboost_p241_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_241",
+            "score": 0.49179351329803467,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_modules_model_evaluation_html_c4",
+            "source_library": "sklearn",
+            "page_or_section": "modules/model_evaluation.html",
+            "score": 0.48721015453338623,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "xgboost_p203_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_203",
+            "score": 0.4676377773284912,
+            "hit": true
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": 1,
+          "rr": 1.0,
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "hit_at_5": 1
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "xgboost_p59_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_59",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 2,
+            "chunk_id": "xgboost_p422_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_422",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": true
+          },
+          {
+            "rank": 3,
+            "chunk_id": "xgboost_p307_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_307",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": true
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_glossary_html_c8",
+            "source_library": "sklearn",
+            "page_or_section": "glossary.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "xgboost_p226_c0",
+            "source_library": "xgboost",
+            "page_or_section": "page_226",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "q23",
+      "question": "What does the subsample parameter do, and how does it relate to overfitting?",
+      "expected_library": "xgboost",
+      "topic": "regularization",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_generated_sklearn_ensemble_GradientBoostingClassifier_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.ensemble.GradientBoostingClassifier.html",
+            "score": 0.5857757329940796,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_grid_search_refit_callable_html_c5",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_grid_search_refit_callable.html",
+            "score": 0.5236533284187317,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_modules_ensemble_html_c18",
+            "source_library": "sklearn",
+            "page_or_section": "modules/ensemble.html",
+            "score": 0.5095131397247314,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_7_0_html_c11",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_7_0.html",
+            "score": 0.48584818840026855,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_generated_sklearn_preprocessing_KBinsDiscretizer_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.preprocessing.KBinsDiscretizer.html",
+            "score": 0.4736189842224121,
+            "hit": false
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_text_plot_document_classification_20newsgroups_html_c7",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/text/plot_document_classification_20newsgroups.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": 1,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_modules_generated_sklearn_ensemble_GradientBoostingClassifier_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.ensemble.GradientBoostingClassifier.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "pandas_getting_started_intro_tutorials_index_html_c0",
+            "source_library": "pandas",
+            "page_or_section": "getting_started/intro_tutorials/index.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_grid_search_refit_callable_html_c5",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_grid_search_refit_callable.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_generated_sklearn_preprocessing_quantile_transform_html_c1",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.preprocessing.quantile_transform.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "q24",
+      "question": "How do you interpret feature_importances_ \u2014 what does the default importance type measure?",
+      "expected_library": "xgboost",
+      "topic": "interpretability",
+      "vector_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_4_0_html_c9",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_4_0.html",
+            "score": 0.7041718363761902,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_successive_halving_iterations_html_c13",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_successive_halving_iterations.html",
+            "score": 0.6643107533454895,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_voting_regressor_html_c13",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_voting_regressor.html",
+            "score": 0.6541558504104614,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_inspection_plot_permutation_importance_html_c18",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/inspection/plot_permutation_importance.html",
+            "score": 0.5942328572273254,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_modules_generated_sklearn_inspection_permutation_importance_html_c0",
+            "source_library": "sklearn",
+            "page_or_section": "modules/generated/sklearn.inspection.permutation_importance.html",
+            "score": 0.5856349468231201,
+            "hit": false
+          }
+        ]
+      },
+      "hybrid_retrieval": {
+        "metrics": {
+          "first_hit_rank": null,
+          "rr": 0.0,
+          "hit_at_1": 0,
+          "hit_at_3": 0,
+          "hit_at_5": 0
+        },
+        "top_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "sklearn_modules_ensemble_html_c19",
+            "source_library": "sklearn",
+            "page_or_section": "modules/ensemble.html",
+            "rrf_score": 0.031099324975891997,
+            "bm25_rank": 1,
+            "vector_rank": 8,
+            "hit": false
+          },
+          {
+            "rank": 2,
+            "chunk_id": "sklearn_auto_examples_release_highlights_plot_release_highlights_1_4_0_html_c9",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/release_highlights/plot_release_highlights_1_4_0.html",
+            "rrf_score": 0.01639344262295082,
+            "bm25_rank": null,
+            "vector_rank": 1,
+            "hit": false
+          },
+          {
+            "rank": 3,
+            "chunk_id": "sklearn_auto_examples_text_plot_document_classification_20newsgroups_html_c7",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/text/plot_document_classification_20newsgroups.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": 2,
+            "vector_rank": null,
+            "hit": false
+          },
+          {
+            "rank": 4,
+            "chunk_id": "sklearn_auto_examples_model_selection_plot_successive_halving_iterations_html_c13",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/model_selection/plot_successive_halving_iterations.html",
+            "rrf_score": 0.016129032258064516,
+            "bm25_rank": null,
+            "vector_rank": 2,
+            "hit": false
+          },
+          {
+            "rank": 5,
+            "chunk_id": "sklearn_auto_examples_ensemble_plot_forest_importances_html_c7",
+            "source_library": "sklearn",
+            "page_or_section": "auto_examples/ensemble/plot_forest_importances.html",
+            "rrf_score": 0.015873015873015872,
+            "bm25_rank": 3,
+            "vector_rank": null,
+            "hit": false
+          }
+        ]
+      }
+    }
+  ]
+}
