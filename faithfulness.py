@@ -82,11 +82,24 @@ def split_into_sentences(text: str) -> List[str]:
             or re.match(r"^\[?\d+\]?\s*\(?Library:", line, re.IGNORECASE)
         ):
             continue
-        # Split on sentence boundaries (. ! ?) while preserving text
-        parts = re.split(r"(?<=[.!?])\s+", line)
-        for part in parts:
-            part = part.strip()
-            if len(part) > 10:  # Ignore trivial sentence fragments
+        # Split sentences on:
+        # 1. Punctuation followed by whitespace, EXCEPT when followed by citation brackets
+        # 2. After a citation bracket closing (']') followed by whitespace and a new sentence start
+        parts = re.split(r"(?<=[.!?])\s+(?![\[\d])|(?<=\])\s+(?=[A-Z0-9`\"'])", line)
+
+        # Merge any isolated citation fragments (e.g. "[1][5]") back to the preceding sentence
+        merged_parts = []
+        for p in parts:
+            p = p.strip()
+            if not p:
+                continue
+            if re.fullmatch(r"(?:\[\d+\])+", p) and merged_parts:
+                merged_parts[-1] = merged_parts[-1] + " " + p
+            else:
+                merged_parts.append(p)
+
+        for part in merged_parts:
+            if len(part) > 5:
                 sentences.append(part)
 
     return sentences
