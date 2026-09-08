@@ -1,5 +1,11 @@
 # Document Ingestion Pipeline for ML & Data Science Documentation RAG
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/AaruneshAP/Chatbot_rag)
+
+> 🌐 **Live Interactive Web App**: **[https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/](https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/)**  
+> Experience the full RAG system live with interactive citation inspection, real-time lexical faithfulness auditing, and configurable hybrid/vector retrieval toggles.
+
 A robust, self-contained document ingestion and retrieval pipeline designed for a RAG (Retrieval-Augmented Generation) system. This project automates the fetching, parsing, chunking, and vector indexing of official documentation for **Pandas**, **XGBoost**, and **Scikit-Learn**.
 
 ---
@@ -415,7 +421,8 @@ python -m streamlit run app.py
 
 ## ☁️ Deployment (Streamlit Community Cloud)
 
-This application is architected for seamless zero-downtime deployment on **Streamlit Community Cloud**.
+This application is deployed live on **Streamlit Community Cloud** at:  
+👉 **[https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/](https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/)**
 
 ### 1. Architectural Strategy for Vector Store Persistence
 - **ChromaDB File Size Analysis**: Full local vector persistence (`data/chroma_db/`) totals ~180.8 MB across 13,116 chunks. However, its internal SQLite database (`chroma.sqlite3`) produces a **157.7 MB single binary file**, exceeding GitHub's strict **100.00 MB per-file push limit** (`GH001`).
