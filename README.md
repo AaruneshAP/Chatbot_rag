@@ -81,7 +81,9 @@ python embed.py
 ### 5. Launch the Streamlit Chatbot UI
 Run the interactive web application locally:
 ```bash
-streamlit run app.py
+python -m streamlit run app.py
+# Or if streamlit is in your PATH:
+# streamlit run app.py
 ```
 
 > *(Add UI screenshot here after running locally)*
@@ -388,7 +390,8 @@ A clean, single-page Streamlit application providing an interactive conversation
 
 ### 🚀 Running the UI Locally
 ```bash
-streamlit run app.py
+python -m streamlit run app.py
+# Or: streamlit run app.py
 ```
 
 > *(Add UI screenshot here after running locally)*
