@@ -83,6 +83,8 @@ def run_benchmark_tests():
             print(f"      Snippet: {src['snippet']}", flush=True)
 
         print("\n🔍 FAITHFULNESS AUDIT:", flush=True)
+        if faith_result.get("status") == "citation_format_not_recognized":
+            print("  ⚠️ WARNING: Citation format not recognized (no standard [n] citations found)", flush=True)
         print(f"  Total Sentences:        {faith_result['total_sentences']}", flush=True)
         print(f"  Cited Sentences:        {faith_result['cited_sentences']}", flush=True)
         print(f"  Uncited Sentences:      {faith_result['uncited_sentences']}", flush=True)

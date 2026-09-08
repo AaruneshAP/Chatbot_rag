@@ -184,6 +184,31 @@ def evaluate_faithfulness(
         for src in cited_sources
     }
 
+    # Defensive parsing: if zero citations exist in the entire text, flag as unrecognized format
+    if not parse_citations(answer):
+        sentences = split_into_sentences(answer)
+        return {
+            "total_sentences": len(sentences),
+            "cited_sentences": 0,
+            "uncited_sentences": len(sentences),
+            "low_confidence_sentences": 0,
+            "mean_overlap_score": 0.0,
+            "overall_faithfulness_rate": 0.0,
+            "status": "citation_format_not_recognized",
+            "citation_format_recognized": False,
+            "sentence_diagnostics": [
+                {
+                    "sentence": sent,
+                    "citations": [],
+                    "overlap_score": 0.0,
+                    "flag": "citation_format_not_recognized",
+                    "matched_keywords": [],
+                    "missing_keywords": sorted(list(extract_keywords(sent)))
+                }
+                for sent in sentences
+            ]
+        }
+
     sentences = split_into_sentences(answer)
     sentence_reports = []
     cited_scores = []
@@ -216,5 +241,7 @@ def evaluate_faithfulness(
         "overall_faithfulness_rate": round(
             (total_cited - low_confidence_count) / total_sentences, 4
         ) if total_sentences > 0 else 1.0,
+        "status": "ok",
+        "citation_format_recognized": True,
         "sentence_diagnostics": sentence_reports
     }

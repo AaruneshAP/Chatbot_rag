@@ -161,6 +161,8 @@ for msg_idx, msg in enumerate(st.session_state.messages):
 
             # Faithfulness Metric Bar
             if faith:
+                if faith.get("status") == "citation_format_not_recognized":
+                    st.warning("⚠️ **Citation format not recognized**: No standard `[n]` citations were detected in this response.")
                 col1, col2, col3 = st.columns(3)
                 col1.metric("Faithfulness Rate", f"{faith['overall_faithfulness_rate']:.0%}")
                 col2.metric("Mean Keyword Overlap", f"{faith['mean_overlap_score']:.0%}")
@@ -221,6 +223,8 @@ if user_query := st.chat_input("Ask a question (e.g. 'What is the difference bet
                 st.caption(caption)
 
                 # Display Faithfulness indicators
+                if faith_result.get("status") == "citation_format_not_recognized":
+                    st.warning("⚠️ **Citation format not recognized**: No standard `[n]` citations were detected in this response.")
                 col1, col2, col3 = st.columns(3)
                 col1.metric("Faithfulness Rate", f"{faith_result['overall_faithfulness_rate']:.0%}")
                 col2.metric("Mean Keyword Overlap", f"{faith_result['mean_overlap_score']:.0%}")

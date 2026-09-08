@@ -259,11 +259,19 @@ system_prompt = (
     "Instructions:\n"
     "1. Answer the user's question using ONLY the facts directly stated in the provided documentation context below.\n"
     "2. Do NOT extrapolate, speculate, or introduce external knowledge not present in the context.\n"
-    "3. Cite every statement or claim with bracketed citation markers like [1], [2], etc., matching the numbered source chunk(s).\n"
+    "3. You MUST cite using ONLY this exact format: [n] immediately after each claim or sentence it supports, "
+    "using plain ASCII square brackets and a number (e.g. [1] or [1][2]). "
+    "Do NOT use footnote-style citations, bibliography sections, or grouped end-notes at the end of the text. "
+    "Every factual claim must have its citation placed inline immediately after the statement.\n"
     "4. If the provided context does not contain sufficient information to answer the question, state explicitly: "
-    "'The provided documentation does not contain sufficient information to answer this question.' Do not guess."
+    "'The provided documentation does not contain sufficient information to answer this question.' Do not guess.\n"
+    "5. Do NOT output internal reasoning traces or <think> tags. Provide ONLY the final answer with inline [n] citations."
 )
 ```
+
+> [!NOTE]
+> **Engineering Case Study — Fallback Model Citation Hardening**:  
+> Citation enforcement was hardened after discovering that fallback models (`openai/gpt-oss-120b`, `openai/gpt-oss-20b`) initially emitted non-standard citation formats (unicode footnote markers like `【1†...】`, grouped end-notes/bibliographies) that broke faithfulness scoring under failover. Fixed via stricter prompt instructions, defensive normalization, and an honest `"citation format not recognized"` flag rather than a silently misleading zero score.
 
 ---
 

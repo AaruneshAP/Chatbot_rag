@@ -4,7 +4,7 @@
     "question": "What's the difference between .loc and .iloc for indexing?",
     "expected_library": "pandas",
     "topic": "indexing/selection",
-    "answer": "The primary difference between `.loc` and `.iloc` in Pandas is the type of indexing they use:\n\n*   **`.loc`** is used for **label-based selection**, which utilizes row and column names [1].\n*   **`.iloc`** is used for **position-based selection**, which utilizes table positions [1].\n\nSpecifically, `.iloc` is primarily integer position-based, ranging from 0 to length-1 of the axis [3]. In contrast, `.loc` allows for selection using labels, such as strings or other index identifiers [3].\n\nAdditionally, `.iloc` will raise an `IndexError` if a requested indexer is out-of-bounds, except for slice indexers which allow out-of-bounds indexing in accordance with Python/NumPy slice semantics [3].",
+    "answer": "The primary difference between `.loc` and `.iloc` is that `.loc` is used for label-based selection, which utilizes row and column names, while `.iloc` is used for position-based selection, which utilizes table positions [1].\n\nSpecifically, `.iloc` is primarily integer position-based, ranging from 0 to length-1 of the axis, and may also be used with a boolean array [3]. In contrast, `.loc` allows for selection by label, such as selecting a row by its specific label [5]. Additionally, `.iloc` will raise an `IndexError` if a requested indexer is out-of-bounds, except for slice indexers which allow out-of-bounds indexing, whereas `.loc` does not have this specific positional constraint mentioned in the context [3].",
     "cited_sources": [
       {
         "citation_id": 1,
@@ -58,86 +58,62 @@
       }
     ],
     "faithfulness": {
-      "total_sentences": 6,
-      "cited_sentences": 5,
-      "uncited_sentences": 1,
+      "total_sentences": 4,
+      "cited_sentences": 4,
+      "uncited_sentences": 0,
       "low_confidence_sentences": 0,
-      "mean_overlap_score": 0.7737,
-      "overall_faithfulness_rate": 0.8333,
+      "mean_overlap_score": 0.7018,
+      "overall_faithfulness_rate": 1.0,
+      "status": "ok",
+      "citation_format_recognized": true,
       "sentence_diagnostics": [
         {
-          "sentence": "The primary difference between `.loc` and `.iloc` in Pandas is the type of indexing they use:",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "difference",
-            "iloc",
-            "indexing",
-            "loc",
-            "pandas",
-            "primary",
-            "type",
-            "use"
-          ]
-        },
-        {
-          "sentence": "**`.loc`** is used for **label-based selection**, which utilizes row and column names [1].",
+          "sentence": "The primary difference between `.loc` and `.iloc` is that `.loc` is used for label-based selection, which utilizes row and column names, while `.iloc` is used for position-based selection, which utilizes table positions [1].",
           "citations": [
             1
           ],
-          "overlap_score": 0.8889,
+          "overlap_score": 0.8,
           "flag": "ok",
           "matched_keywords": [
             "based",
             "column",
+            "iloc",
             "label",
             "loc",
             "names",
-            "row",
-            "selection",
-            "used"
-          ],
-          "missing_keywords": [
-            "utilizes"
-          ]
-        },
-        {
-          "sentence": "**`.iloc`** is used for **position-based selection**, which utilizes table positions [1].",
-          "citations": [
-            1
-          ],
-          "overlap_score": 0.875,
-          "flag": "ok",
-          "matched_keywords": [
-            "based",
-            "iloc",
             "position",
             "positions",
+            "row",
             "selection",
             "table",
             "used"
           ],
           "missing_keywords": [
+            "difference",
+            "primary",
             "utilizes"
           ]
         },
         {
-          "sentence": "Specifically, `.iloc` is primarily integer position-based, ranging from 0 to length-1 of the axis [3].",
+          "sentence": "Specifically, `.iloc` is primarily integer position-based, ranging from 0 to length-1 of the axis, and may also be used with a boolean array [3].",
           "citations": [
             3
           ],
-          "overlap_score": 0.7778,
+          "overlap_score": 0.8571,
           "flag": "ok",
           "matched_keywords": [
+            "also",
+            "array",
             "axis",
             "based",
+            "boolean",
             "iloc",
             "integer",
             "length",
+            "may",
             "position",
-            "primarily"
+            "primarily",
+            "used"
           ],
           "missing_keywords": [
             "ranging",
@@ -145,32 +121,31 @@
           ]
         },
         {
-          "sentence": "In contrast, `.loc` allows for selection using labels, such as strings or other index identifiers [3].",
+          "sentence": "In contrast, `.loc` allows for selection by label, such as selecting a row by its specific label [5].",
           "citations": [
-            3
+            5
           ],
-          "overlap_score": 0.4444,
+          "overlap_score": 0.5,
           "flag": "ok",
           "matched_keywords": [
-            "index",
+            "label",
             "loc",
-            "selection",
-            "using"
+            "row",
+            "selection"
           ],
           "missing_keywords": [
             "allows",
             "contrast",
-            "identifiers",
-            "labels",
-            "strings"
+            "selecting",
+            "specific"
           ]
         },
         {
-          "sentence": "Additionally, `.iloc` will raise an `IndexError` if a requested indexer is out-of-bounds, except for slice indexers which allow out-of-bounds indexing in accordance with Python/NumPy slice semantics [3].",
+          "sentence": "Additionally, `.iloc` will raise an `IndexError` if a requested indexer is out-of-bounds, except for slice indexers which allow out-of-bounds indexing, whereas `.loc` does not have this specific positional constraint mentioned in the context [3].",
           "citations": [
             3
           ],
-          "overlap_score": 0.8824,
+          "overlap_score": 0.65,
           "flag": "ok",
           "matched_keywords": [
             "allow",
@@ -181,17 +156,20 @@
             "indexerror",
             "indexers",
             "indexing",
-            "numpy",
-            "python",
+            "loc",
             "raise",
             "requested",
-            "semantics",
             "slice",
             "will"
           ],
           "missing_keywords": [
-            "accordance",
-            "additionally"
+            "additionally",
+            "constraint",
+            "context",
+            "mentioned",
+            "positional",
+            "specific",
+            "whereas"
           ]
         }
       ]
@@ -202,7 +180,7 @@
     "question": "How do you handle duplicate rows with drop_duplicates, and what does the keep parameter control?",
     "expected_library": "pandas",
     "topic": "duplicates handling",
-    "answer": "To handle duplicate rows, you use the `drop_duplicates` method, which is available for `Series`, `Index`, and `DataFrame` objects [1][2][3].\n\nThe `keep` parameter controls which duplicate values are removed or retained, with the following options [1][2][3]:\n*   **`'first'`** (default): Drops duplicates except for the first occurrence [1][2][3].\n*   **`'last'`**: Drops duplicates except for the last occurrence [1][2][3].\n*   **`False`**: Drops all duplicates [1][2][3].\n\nFor `DataFrame` objects specifically, you can also use the `subset` parameter to consider only certain columns when identifying duplicates; by default, all columns are used [3]. Additionally, `DataFrame.drop_duplicates` requires that columns specified in `subset` be of a hashable type, otherwise it raises a `TypeError` [3].\n\nIf the `inplace` parameter is set to `True`, the operation modifies the object directly and returns `None`; otherwise, it returns a new object with duplicates removed [1][3].",
+    "answer": "To handle duplicate rows, you can use the `drop_duplicates` method available on `Series`, `Index`, and `DataFrame` objects, which returns the object with duplicate values removed [1][2][3]. The `keep` parameter controls which duplicates are retained or removed, with a default value of `'first'` [1][2][3].\n\nThe specific behaviors of the `keep` parameter are as follows:\n*   **`'first'`**: Drops duplicates except for the first occurrence [1][2][3].\n*   **`'last'`**: Drops duplicates except for the last occurrence [1][2][3].\n*   **`False`**: Drops all duplicates [1][2][3].\n\nFor `DataFrame` objects specifically, you can optionally specify a `subset` of columns to consider when identifying duplicates; by default, all columns are used [3]. Additionally, `DataFrame.drop_duplicates` and `Series.drop_duplicates` support an `inplace` parameter (default `False`) to modify the object in place, and an `ignore_index` parameter (default `False`) to reset the index labels to 0, 1, …, n - 1 [1][3].",
     "cited_sources": [
       {
         "citation_id": 1,
@@ -257,20 +235,22 @@
     ],
     "faithfulness": {
       "total_sentences": 8,
-      "cited_sentences": 8,
-      "uncited_sentences": 0,
+      "cited_sentences": 7,
+      "uncited_sentences": 1,
       "low_confidence_sentences": 0,
-      "mean_overlap_score": 0.7454,
-      "overall_faithfulness_rate": 1.0,
+      "mean_overlap_score": 0.7562,
+      "overall_faithfulness_rate": 0.875,
+      "status": "ok",
+      "citation_format_recognized": true,
       "sentence_diagnostics": [
         {
-          "sentence": "To handle duplicate rows, you use the `drop_duplicates` method, which is available for `Series`, `Index`, and `DataFrame` objects [1][2][3].",
+          "sentence": "To handle duplicate rows, you can use the `drop_duplicates` method available on `Series`, `Index`, and `DataFrame` objects, which returns the object with duplicate values removed [1][2][3].",
           "citations": [
             1,
             2,
             3
           ],
-          "overlap_score": 0.8182,
+          "overlap_score": 0.8667,
           "flag": "ok",
           "matched_keywords": [
             "dataframe",
@@ -279,9 +259,13 @@
             "handle",
             "index",
             "method",
+            "object",
+            "removed",
+            "returns",
             "rows",
             "series",
-            "use"
+            "use",
+            "values"
           ],
           "missing_keywords": [
             "available",
@@ -289,39 +273,52 @@
           ]
         },
         {
-          "sentence": "The `keep` parameter controls which duplicate values are removed or retained, with the following options [1][2][3]:",
+          "sentence": "The `keep` parameter controls which duplicates are retained or removed, with a default value of `'first'` [1][2][3].",
           "citations": [
             1,
             2,
             3
           ],
-          "overlap_score": 0.6667,
+          "overlap_score": 0.8889,
           "flag": "ok",
           "matched_keywords": [
             "controls",
-            "duplicate",
+            "default",
+            "duplicates",
+            "first",
             "keep",
             "parameter",
             "removed",
-            "values"
+            "value"
           ],
           "missing_keywords": [
-            "following",
-            "options",
             "retained"
           ]
         },
         {
-          "sentence": "**`'first'`** (default): Drops duplicates except for the first occurrence [1][2][3].",
+          "sentence": "The specific behaviors of the `keep` parameter are as follows:",
+          "citations": [],
+          "overlap_score": 0.0,
+          "flag": "uncited",
+          "matched_keywords": [],
+          "missing_keywords": [
+            "behaviors",
+            "follows",
+            "keep",
+            "parameter",
+            "specific"
+          ]
+        },
+        {
+          "sentence": "**`'first'`**: Drops duplicates except for the first occurrence [1][2][3].",
           "citations": [
             1,
             2,
             3
           ],
-          "overlap_score": 0.8333,
+          "overlap_score": 0.8,
           "flag": "ok",
           "matched_keywords": [
-            "default",
             "duplicates",
             "except",
             "first",
@@ -368,80 +365,56 @@
           ]
         },
         {
-          "sentence": "For `DataFrame` objects specifically, you can also use the `subset` parameter to consider only certain columns when identifying duplicates; by default, all columns are used [3].",
+          "sentence": "For `DataFrame` objects specifically, you can optionally specify a `subset` of columns to consider when identifying duplicates; by default, all columns are used [3].",
           "citations": [
             3
           ],
-          "overlap_score": 0.7143,
+          "overlap_score": 0.5833,
           "flag": "ok",
           "matched_keywords": [
-            "also",
-            "certain",
             "columns",
             "consider",
             "dataframe",
             "default",
             "duplicates",
             "identifying",
-            "subset",
-            "use"
+            "subset"
           ],
           "missing_keywords": [
             "objects",
-            "parameter",
+            "optionally",
             "specifically",
+            "specify",
             "used"
           ]
         },
         {
-          "sentence": "Additionally, `DataFrame.drop_duplicates` requires that columns specified in `subset` be of a hashable type, otherwise it raises a `TypeError` [3].",
-          "citations": [
-            3
-          ],
-          "overlap_score": 0.75,
-          "flag": "ok",
-          "matched_keywords": [
-            "columns",
-            "dataframe",
-            "drop_duplicates",
-            "hashable",
-            "requires",
-            "specified",
-            "subset",
-            "type",
-            "typeerror"
-          ],
-          "missing_keywords": [
-            "additionally",
-            "otherwise",
-            "raises"
-          ]
-        },
-        {
-          "sentence": "If the `inplace` parameter is set to `True`, the operation modifies the object directly and returns `None`; otherwise, it returns a new object with duplicates removed [1][3].",
+          "sentence": "Additionally, `DataFrame.drop_duplicates` and `Series.drop_duplicates` support an `inplace` parameter (default `False`) to modify the object in place, and an `ignore_index` parameter (default `False`) to reset the index labels to 0, 1, …, n - 1 [1][3].",
           "citations": [
             1,
             3
           ],
-          "overlap_score": 0.7143,
+          "overlap_score": 0.6875,
           "flag": "ok",
           "matched_keywords": [
-            "duplicates",
+            "dataframe",
+            "default",
+            "drop_duplicates",
+            "false",
+            "ignore_index",
+            "index",
             "inplace",
-            "new",
-            "none",
-            "operation",
+            "labels",
+            "modify",
             "parameter",
-            "removed",
-            "returns",
-            "set",
-            "true"
+            "series"
           ],
           "missing_keywords": [
-            "directly",
-            "modifies",
+            "additionally",
             "object",
-            "otherwise"
+            "place",
+            "reset",
+            "support"
           ]
         }
       ]
@@ -452,7 +425,7 @@
     "question": "What's the difference between StandardScaler and MinMaxScaler?",
     "expected_library": "sklearn",
     "topic": "preprocessing",
-    "answer": "**StandardScaler** standardizes each feature by removing its mean and scaling to unit variance (zero‑mean, unit‑variance). Because it relies on the mean and standard deviation, it is very sensitive to outliers and cannot guarantee balanced feature scales when outliers are present【1†L1-L4】.  \n\n**MinMaxScaler** rescales each feature linearly so that its values fall within a specified range (by default [0, 1]). The transformation uses the feature’s minimum and maximum values; it does not diminish the influence of outliers—outliers are simply mapped to the range limits, which can compress the bulk of the data into a narrow interval【1†L5-L9】【2†L1-L9】.  \n\nIn short, StandardScaler centers and scales by mean/standard‑deviation (unit variance), while MinMaxScaler linearly maps data to a fixed interval; both are sensitive to outliers, but they achieve scaling in different ways.",
+    "answer": "**StandardScaler** standardizes each feature by centering it (subtracting the mean) and scaling it to unit variance — i.e., it performs both centering and scaling by default [5]. However, because it uses the mean and standard deviation, it is very sensitive to outliers and cannot guarantee balanced feature scales when outliers are present [1][1].\n\n**MinMaxScaler** rescales each feature individually to a specified range (by default [0, 1]) by linearly mapping the feature’s minimum to the lower bound and its maximum to the upper bound [2][5]. Like StandardScaler, it is also sensitive to outliers; it does not reduce their effect but simply compresses all values—including outliers—into the chosen range [1][2].",
     "cited_sources": [
       {
         "citation_id": 1,
@@ -506,125 +479,113 @@
       }
     ],
     "faithfulness": {
-      "total_sentences": 5,
-      "cited_sentences": 0,
-      "uncited_sentences": 5,
+      "total_sentences": 4,
+      "cited_sentences": 4,
+      "uncited_sentences": 0,
       "low_confidence_sentences": 0,
-      "mean_overlap_score": 0.0,
-      "overall_faithfulness_rate": 0.0,
+      "mean_overlap_score": 0.6155,
+      "overall_faithfulness_rate": 1.0,
+      "status": "ok",
+      "citation_format_recognized": true,
       "sentence_diagnostics": [
         {
-          "sentence": "**StandardScaler** standardizes each feature by removing its mean and scaling to unit variance (zero‑mean, unit‑variance).",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
+          "sentence": "**StandardScaler** standardizes each feature by centering it (subtracting the mean) and scaling it to unit variance — i.e., it performs both centering and scaling by default [5].",
+          "citations": [
+            5
+          ],
+          "overlap_score": 0.4545,
+          "flag": "ok",
+          "matched_keywords": [
+            "centering",
             "feature",
-            "mean",
-            "removing",
             "scaling",
-            "standardizes",
             "standardscaler",
-            "unit",
-            "variance",
-            "zero"
-          ]
-        },
-        {
-          "sentence": "Because it relies on the mean and standard deviation, it is very sensitive to outliers and cannot guarantee balanced feature scales when outliers are present【1†L1-L4】.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "balanced",
-            "deviation",
-            "feature",
-            "guarantee",
-            "mean",
-            "outliers",
-            "present",
-            "relies",
-            "scales",
-            "sensitive",
-            "standard"
-          ]
-        },
-        {
-          "sentence": "**MinMaxScaler** rescales each feature linearly so that its values fall within a specified range (by default [0, 1]).",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
+            "unit"
+          ],
           "missing_keywords": [
             "default",
-            "fall",
-            "feature",
-            "linearly",
-            "minmaxscaler",
-            "range",
-            "rescales",
-            "specified",
-            "values",
-            "within"
+            "mean",
+            "performs",
+            "standardizes",
+            "subtracting",
+            "variance"
           ]
         },
         {
-          "sentence": "The transformation uses the feature’s minimum and maximum values; it does not diminish the influence of outliers—outliers are simply mapped to the range limits, which can compress the bulk of the data into a narrow interval【1†L5-L9】【2†L1-L9】.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "bulk",
-            "compress",
-            "data",
-            "diminish",
+          "sentence": "However, because it uses the mean and standard deviation, it is very sensitive to outliers and cannot guarantee balanced feature scales when outliers are present [1][1].",
+          "citations": [
+            1
+          ],
+          "overlap_score": 0.6667,
+          "flag": "ok",
+          "matched_keywords": [
+            "balanced",
             "feature",
-            "influence",
-            "interval",
-            "limits",
-            "mapped",
+            "guarantee",
+            "however",
+            "outliers",
+            "present",
+            "scales",
+            "sensitive"
+          ],
+          "missing_keywords": [
+            "deviation",
+            "mean",
+            "standard",
+            "uses"
+          ]
+        },
+        {
+          "sentence": "**MinMaxScaler** rescales each feature individually to a specified range (by default [0, 1]) by linearly mapping the feature’s minimum to the lower bound and its maximum to the upper bound [2][5].",
+          "citations": [
+            2,
+            5
+          ],
+          "overlap_score": 0.5714,
+          "flag": "ok",
+          "matched_keywords": [
+            "default",
+            "feature",
+            "individually",
+            "linearly",
             "maximum",
             "minimum",
-            "narrow",
-            "outliers",
-            "range",
-            "simply",
-            "transformation",
-            "uses",
-            "values"
+            "minmaxscaler",
+            "range"
+          ],
+          "missing_keywords": [
+            "bound",
+            "lower",
+            "mapping",
+            "rescales",
+            "specified",
+            "upper"
           ]
         },
         {
-          "sentence": "In short, StandardScaler centers and scales by mean/standard‑deviation (unit variance), while MinMaxScaler linearly maps data to a fixed interval; both are sensitive to outliers, but they achieve scaling in different ways.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "achieve",
-            "centers",
-            "data",
-            "deviation",
-            "different",
-            "fixed",
-            "interval",
-            "linearly",
-            "maps",
-            "mean",
-            "minmaxscaler",
+          "sentence": "Like StandardScaler, it is also sensitive to outliers; it does not reduce their effect but simply compresses all values—including outliers—into the chosen range [1][2].",
+          "citations": [
+            1,
+            2
+          ],
+          "overlap_score": 0.7692,
+          "flag": "ok",
+          "matched_keywords": [
+            "also",
+            "compresses",
+            "effect",
+            "like",
             "outliers",
-            "scales",
-            "scaling",
+            "range",
+            "reduce",
             "sensitive",
-            "short",
-            "standard",
             "standardscaler",
-            "unit",
-            "variance",
-            "ways"
+            "values"
+          ],
+          "missing_keywords": [
+            "chosen",
+            "including",
+            "simply"
           ]
         }
       ]
@@ -635,7 +596,7 @@
     "question": "How does GroupKFold differ from regular KFold, and when should you use it?",
     "expected_library": "sklearn",
     "topic": "cross-validation",
-    "answer": "GroupKFold is a K‑fold iterator that respects a grouping of the samples, whereas the standard KFold splits ignore any group information. With GroupKFold each distinct group appears in exactly one test fold (the number of groups must be at least the number of folds) so that a group is never split between training and testing [4]. When shuffle=False the folds try to contain the same number of samples, and when shuffle=True they try to contain an equal number of distinct groups (but not necessarily equal group sizes) [1]. In contrast, regular KFold simply partitions the data by index and can place members of the same group in both the train and test sets.  \n\nYou should use GroupKFold whenever your data have a natural grouping (e.g., subjects, patients, time‑series blocks) and you need to avoid data leakage by keeping each group wholly in either the training or the testing split. If you also need the class distribution to be balanced across folds, a StratifiedGroupKFold would be more appropriate [1][4].",
+    "answer": "GroupKFold is a K‑fold iterator that **respects group boundaries**: each distinct group appears in exactly one test fold, so no group is ever split between training and testing sets [4][1]. In contrast, the standard KFold iterator ignores any group or class information and can place samples from the same group in both the training and test partitions [2].  \n\nWhen `shuffle=False`, GroupKFold tries to put the same number of samples in each fold, while with `shuffle=True` it attempts to allocate an equal number of distinct groups to each fold (but does not balance the total number of samples per group) [1][4].  \n\nYou should use GroupKFold whenever your data contain natural groupings (e.g., measurements from the same subject, patient, or experiment) and you need to prevent information from a group leaking into both training and test sets. This ensures that the evaluation reflects true generalisation to unseen groups.",
     "cited_sources": [
       {
         "citation_id": 1,
@@ -689,162 +650,142 @@
       }
     ],
     "faithfulness": {
-      "total_sentences": 6,
+      "total_sentences": 5,
       "cited_sentences": 3,
-      "uncited_sentences": 3,
+      "uncited_sentences": 2,
       "low_confidence_sentences": 0,
-      "mean_overlap_score": 0.7803,
-      "overall_faithfulness_rate": 0.5,
+      "mean_overlap_score": 0.6309,
+      "overall_faithfulness_rate": 0.6,
+      "status": "ok",
+      "citation_format_recognized": true,
       "sentence_diagnostics": [
         {
-          "sentence": "GroupKFold is a K‑fold iterator that respects a grouping of the samples, whereas the standard KFold splits ignore any group information.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "fold",
-            "group",
-            "grouping",
-            "groupkfold",
-            "ignore",
-            "information",
-            "iterator",
-            "kfold",
-            "respects",
-            "samples",
-            "splits",
-            "standard",
-            "whereas"
-          ]
-        },
-        {
-          "sentence": "With GroupKFold each distinct group appears in exactly one test fold (the number of groups must be at least the number of folds) so that a group is never split between training and testing [4].",
+          "sentence": "GroupKFold is a K‑fold iterator that **respects group boundaries**: each distinct group appears in exactly one test fold, so no group is ever split between training and testing sets [4][1].",
           "citations": [
+            1,
             4
           ],
-          "overlap_score": 0.7059,
+          "overlap_score": 0.6875,
           "flag": "ok",
           "matched_keywords": [
             "distinct",
             "exactly",
             "fold",
-            "folds",
             "group",
             "groupkfold",
-            "groups",
-            "least",
-            "must",
-            "number",
+            "iterator",
+            "sets",
             "split",
-            "test"
+            "test",
+            "testing",
+            "training"
           ],
           "missing_keywords": [
             "appears",
-            "never",
+            "boundaries",
+            "ever",
             "one",
-            "testing",
-            "training"
+            "respects"
           ]
         },
         {
-          "sentence": "When shuffle=False the folds try to contain the same number of samples, and when shuffle=True they try to contain an equal number of distinct groups (but not necessarily equal group sizes) [1].",
+          "sentence": "In contrast, the standard KFold iterator ignores any group or class information and can place samples from the same group in both the training and test partitions [2].",
           "citations": [
-            1
+            2
           ],
-          "overlap_score": 0.8571,
+          "overlap_score": 0.5385,
           "flag": "ok",
           "matched_keywords": [
-            "distinct",
-            "equal",
-            "false",
-            "folds",
+            "class",
             "group",
-            "groups",
-            "number",
+            "information",
+            "iterator",
+            "kfold",
             "samples",
-            "shuffle",
-            "sizes",
-            "true",
-            "try"
+            "training"
           ],
           "missing_keywords": [
-            "contain",
-            "necessarily"
-          ]
-        },
-        {
-          "sentence": "In contrast, regular KFold simply partitions the data by index and can place members of the same group in both the train and test sets.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
             "contrast",
-            "data",
-            "group",
-            "index",
-            "kfold",
-            "members",
+            "ignores",
             "partitions",
             "place",
-            "regular",
-            "sets",
-            "simply",
-            "test",
-            "train"
+            "standard",
+            "test"
           ]
         },
         {
-          "sentence": "You should use GroupKFold whenever your data have a natural grouping (e.g., subjects, patients, time‑series blocks) and you need to avoid data leakage by keeping each group wholly in either the training or the testing split.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "avoid",
-            "blocks",
-            "data",
-            "either",
-            "group",
-            "grouping",
-            "groupkfold",
-            "keeping",
-            "leakage",
-            "natural",
-            "need",
-            "patients",
-            "series",
-            "split",
-            "subjects",
-            "testing",
-            "time",
-            "training",
-            "use",
-            "whenever",
-            "wholly"
-          ]
-        },
-        {
-          "sentence": "If you also need the class distribution to be balanced across folds, a StratifiedGroupKFold would be more appropriate [1][4].",
+          "sentence": "When `shuffle=False`, GroupKFold tries to put the same number of samples in each fold, while with `shuffle=True` it attempts to allocate an equal number of distinct groups to each fold (but does not balance the total number of samples per group) [1][4].",
           "citations": [
             1,
             4
           ],
-          "overlap_score": 0.7778,
+          "overlap_score": 0.6667,
           "flag": "ok",
           "matched_keywords": [
-            "across",
-            "also",
-            "balanced",
-            "class",
-            "distribution",
-            "folds",
-            "stratifiedgroupkfold"
+            "attempts",
+            "distinct",
+            "equal",
+            "false",
+            "fold",
+            "group",
+            "groupkfold",
+            "groups",
+            "number",
+            "samples",
+            "shuffle",
+            "true"
           ],
           "missing_keywords": [
-            "appropriate",
-            "need"
+            "allocate",
+            "balance",
+            "per",
+            "put",
+            "total",
+            "tries"
+          ]
+        },
+        {
+          "sentence": "You should use GroupKFold whenever your data contain natural groupings (e.g., measurements from the same subject, patient, or experiment) and you need to prevent information from a group leaking into both training and test sets.",
+          "citations": [],
+          "overlap_score": 0.0,
+          "flag": "uncited",
+          "matched_keywords": [],
+          "missing_keywords": [
+            "contain",
+            "data",
+            "experiment",
+            "group",
+            "groupings",
+            "groupkfold",
+            "information",
+            "leaking",
+            "measurements",
+            "natural",
+            "need",
+            "patient",
+            "prevent",
+            "sets",
+            "subject",
+            "test",
+            "training",
+            "use",
+            "whenever"
+          ]
+        },
+        {
+          "sentence": "This ensures that the evaluation reflects true generalisation to unseen groups.",
+          "citations": [],
+          "overlap_score": 0.0,
+          "flag": "uncited",
+          "matched_keywords": [],
+          "missing_keywords": [
+            "ensures",
+            "evaluation",
+            "generalisation",
+            "groups",
+            "reflects",
+            "true",
+            "unseen"
           ]
         }
       ]
@@ -855,7 +796,7 @@
     "question": "What does early_stopping_rounds do, and how does it interact with eval_set?",
     "expected_library": "xgboost",
     "topic": "training control",
-    "answer": "The provided documentation does not contain sufficient information to answer this question.\n\nWhile the context mentions `early_stopping_rounds` in the XGBoost documentation [3] and `early_stopping` in the Scikit-Learn documentation [2], it does not explicitly define the function of `early_stopping_rounds` (other than implying it triggers the `EarlyStopping` callback [4]) nor does it describe how it interacts with `eval_set` (or `evals`/`evallist` as mentioned in [3]). The Scikit-Learn documentation discusses `validation_fraction` and `X_val`/`y_val` for early stopping [2], but does not use the term `eval_set` or describe the interaction with `early_stopping_rounds`.",
+    "answer": "The provided documentation does not contain sufficient information to answer this question.\n\nWhile the context mentions `early_stopping_rounds` in the XGBoost documentation, it only states that when specified, the training procedure defines the corresponding callbacks internally and that the `EarlyStopping` callback is invoked inside the iteration loop [4]. It does not explain the specific mechanism of how `early_stopping_rounds` determines when to stop training (e.g., based on a number of rounds without improvement) nor does it describe its interaction with `eval_set` (which is not mentioned in the provided text). The Scikit-learn documentation provided discusses early stopping parameters for `HistGradientBoostingRegressor` (such as `n_iter_no_change` and `validation_fraction`) [2], but does not provide information regarding XGBoost's `early_stopping_rounds` or `eval_set`.",
     "cited_sources": [
       {
         "citation_id": 1,
@@ -909,12 +850,14 @@
       }
     ],
     "faithfulness": {
-      "total_sentences": 3,
+      "total_sentences": 4,
       "cited_sentences": 2,
-      "uncited_sentences": 1,
-      "low_confidence_sentences": 0,
-      "mean_overlap_score": 0.4143,
-      "overall_faithfulness_rate": 0.6667,
+      "uncited_sentences": 2,
+      "low_confidence_sentences": 1,
+      "mean_overlap_score": 0.4102,
+      "overall_faithfulness_rate": 0.25,
+      "status": "ok",
+      "citation_format_recognized": true,
       "sentence_diagnostics": [
         {
           "sentence": "The provided documentation does not contain sufficient information to answer this question.",
@@ -933,65 +876,90 @@
           ]
         },
         {
-          "sentence": "While the context mentions `early_stopping_rounds` in the XGBoost documentation [3] and `early_stopping` in the Scikit-Learn documentation [2], it does not explicitly define the function of `early_stopping_rounds` (other than implying it triggers the `EarlyStopping` callback [4]) nor does it describe how it interacts with `eval_set` (or `evals`/`evallist` as mentioned in [3]).",
+          "sentence": "While the context mentions `early_stopping_rounds` in the XGBoost documentation, it only states that when specified, the training procedure defines the corresponding callbacks internally and that the `EarlyStopping` callback is invoked inside the iteration loop [4].",
           "citations": [
-            2,
-            3,
             4
           ],
-          "overlap_score": 0.4286,
+          "overlap_score": 0.5263,
           "flag": "ok",
           "matched_keywords": [
             "callback",
-            "define",
-            "early_stopping",
+            "callbacks",
+            "corresponding",
             "early_stopping_rounds",
             "earlystopping",
-            "evallist",
-            "evals",
-            "function",
-            "xgboost"
+            "inside",
+            "invoked",
+            "procedure",
+            "specified",
+            "training"
           ],
           "missing_keywords": [
             "context",
-            "describe",
+            "defines",
             "documentation",
-            "eval_set",
-            "explicitly",
-            "implying",
-            "interacts",
-            "learn",
-            "mentioned",
+            "internally",
+            "iteration",
+            "loop",
             "mentions",
-            "scikit",
-            "triggers"
+            "states",
+            "xgboost"
           ]
         },
         {
-          "sentence": "The Scikit-Learn documentation discusses `validation_fraction` and `X_val`/`y_val` for early stopping [2], but does not use the term `eval_set` or describe the interaction with `early_stopping_rounds`.",
+          "sentence": "It does not explain the specific mechanism of how `early_stopping_rounds` determines when to stop training (e.g., based on a number of rounds without improvement) nor does it describe its interaction with `eval_set` (which is not mentioned in the provided text).",
+          "citations": [],
+          "overlap_score": 0.0,
+          "flag": "uncited",
+          "matched_keywords": [],
+          "missing_keywords": [
+            "based",
+            "describe",
+            "determines",
+            "early_stopping_rounds",
+            "eval_set",
+            "explain",
+            "improvement",
+            "interaction",
+            "mechanism",
+            "mentioned",
+            "number",
+            "provided",
+            "rounds",
+            "specific",
+            "stop",
+            "text",
+            "training",
+            "without"
+          ]
+        },
+        {
+          "sentence": "The Scikit-learn documentation provided discusses early stopping parameters for `HistGradientBoostingRegressor` (such as `n_iter_no_change` and `validation_fraction`) [2], but does not provide information regarding XGBoost's `early_stopping_rounds` or `eval_set`.",
           "citations": [
             2
           ],
-          "overlap_score": 0.4,
-          "flag": "ok",
+          "overlap_score": 0.2941,
+          "flag": "low_confidence",
           "matched_keywords": [
             "early",
+            "information",
+            "n_iter_no_change",
             "stopping",
-            "use",
-            "validation_fraction",
-            "x_val",
-            "y_val"
+            "validation_fraction"
           ],
           "missing_keywords": [
-            "describe",
             "discusses",
             "documentation",
             "early_stopping_rounds",
             "eval_set",
-            "interaction",
+            "histgradientboostingregressor",
             "learn",
+            "parameters",
+            "provide",
+            "provided",
+            "regarding",
             "scikit",
-            "term"
+            "xgboost"
           ]
         }
       ]
@@ -1002,7 +970,7 @@
     "question": "How does XGBoost's built-in handling of missing values work?",
     "expected_library": "xgboost",
     "topic": "missing values",
-    "answer": "XGBoost handles missing values automatically during tree construction.  \n* For tree‑based boosters, the algorithm learns the direction (left or right child) that missing values should take at each split while training. The missing value is treated as a special category and the best direction is chosen based on the training data.  \n* The default missing value is `NaN`; this can be overridden with the `missing` parameter, which specifies the value that should be interpreted as missing. If `missing` is `None`, XGBoost uses `np.nan` by default.  \n* In the linear booster (`gblinear`), missing values are treated as zeros rather than being routed through a learned split.  \n\nThus, XGBoost automatically learns how to handle missing entries in tree splits, uses `NaN` as the default missing indicator, and allows the user to specify a different missing value if desired.  \n\n[2] 1.5.8, 1.5.7; [4] missing parameter description.",
+    "answer": "XGBoost automatically handles missing values.  \n* For tree‑based boosters, the algorithm learns a branch direction for missing values during training, so missing entries are routed to the left or right child that gives the best split.  \n* For the linear (gblinear) booster, missing values are treated as zeros.  \n* The user can specify a particular value to be treated as missing via the `missing` parameter; if it is not set, XGBoost defaults to `np.nan` and treats any entry equal to that value as missing and removes it from the split evaluation.  \n\n[2][4]",
     "cited_sources": [
       {
         "citation_id": 1,
@@ -1056,31 +1024,31 @@
       }
     ],
     "faithfulness": {
-      "total_sentences": 8,
+      "total_sentences": 5,
       "cited_sentences": 1,
-      "uncited_sentences": 7,
+      "uncited_sentences": 4,
       "low_confidence_sentences": 0,
-      "mean_overlap_score": 0.3333,
-      "overall_faithfulness_rate": 0.125,
+      "mean_overlap_score": 1.0,
+      "overall_faithfulness_rate": 0.2,
+      "status": "ok",
+      "citation_format_recognized": true,
       "sentence_diagnostics": [
         {
-          "sentence": "XGBoost handles missing values automatically during tree construction.",
+          "sentence": "XGBoost automatically handles missing values.",
           "citations": [],
           "overlap_score": 0.0,
           "flag": "uncited",
           "matched_keywords": [],
           "missing_keywords": [
             "automatically",
-            "construction",
             "handles",
             "missing",
-            "tree",
             "values",
             "xgboost"
           ]
         },
         {
-          "sentence": "For tree‑based boosters, the algorithm learns the direction (left or right child) that missing values should take at each split while training.",
+          "sentence": "For tree‑based boosters, the algorithm learns a branch direction for missing values during training, so missing entries are routed to the left or right child that gives the best split.",
           "citations": [],
           "overlap_score": 0.0,
           "flag": "uncited",
@@ -1088,74 +1056,26 @@
           "missing_keywords": [
             "algorithm",
             "based",
+            "best",
             "boosters",
+            "branch",
             "child",
             "direction",
+            "entries",
+            "gives",
             "learns",
             "left",
             "missing",
             "right",
+            "routed",
             "split",
-            "take",
             "training",
             "tree",
             "values"
           ]
         },
         {
-          "sentence": "The missing value is treated as a special category and the best direction is chosen based on the training data.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "based",
-            "best",
-            "category",
-            "chosen",
-            "data",
-            "direction",
-            "missing",
-            "special",
-            "training",
-            "treated",
-            "value"
-          ]
-        },
-        {
-          "sentence": "The default missing value is `NaN`; this can be overridden with the `missing` parameter, which specifies the value that should be interpreted as missing.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "default",
-            "interpreted",
-            "missing",
-            "nan",
-            "overridden",
-            "parameter",
-            "specifies",
-            "value"
-          ]
-        },
-        {
-          "sentence": "If `missing` is `None`, XGBoost uses `np.nan` by default.",
-          "citations": [],
-          "overlap_score": 0.0,
-          "flag": "uncited",
-          "matched_keywords": [],
-          "missing_keywords": [
-            "default",
-            "missing",
-            "nan",
-            "none",
-            "uses",
-            "xgboost"
-          ]
-        },
-        {
-          "sentence": "In the linear booster (`gblinear`), missing values are treated as zeros rather than being routed through a learned split.",
+          "sentence": "For the linear (gblinear) booster, missing values are treated as zeros.",
           "citations": [],
           "overlap_score": 0.0,
           "flag": "uncited",
@@ -1163,59 +1083,50 @@
           "missing_keywords": [
             "booster",
             "gblinear",
-            "learned",
             "linear",
             "missing",
-            "rather",
-            "routed",
-            "split",
             "treated",
             "values",
             "zeros"
           ]
         },
         {
-          "sentence": "Thus, XGBoost automatically learns how to handle missing entries in tree splits, uses `NaN` as the default missing indicator, and allows the user to specify a different missing value if desired.",
+          "sentence": "The user can specify a particular value to be treated as missing via the `missing` parameter; if it is not set, XGBoost defaults to `np.nan` and treats any entry equal to that value as missing and removes it from the split evaluation.",
           "citations": [],
           "overlap_score": 0.0,
           "flag": "uncited",
           "matched_keywords": [],
           "missing_keywords": [
-            "allows",
-            "automatically",
-            "default",
-            "desired",
-            "different",
-            "entries",
-            "handle",
-            "indicator",
-            "learns",
+            "defaults",
+            "entry",
+            "equal",
+            "evaluation",
             "missing",
             "nan",
+            "parameter",
+            "particular",
+            "removes",
+            "set",
             "specify",
-            "splits",
-            "thus",
-            "tree",
+            "split",
+            "treated",
+            "treats",
             "user",
-            "uses",
             "value",
+            "via",
             "xgboost"
           ]
         },
         {
-          "sentence": "1.5.8, 1.5.7; [4] missing parameter description.",
+          "sentence": "[2][4]",
           "citations": [
+            2,
             4
           ],
-          "overlap_score": 0.3333,
+          "overlap_score": 1.0,
           "flag": "ok",
-          "matched_keywords": [
-            "missing"
-          ],
-          "missing_keywords": [
-            "description",
-            "parameter"
-          ]
+          "matched_keywords": [],
+          "missing_keywords": []
         }
       ]
     }
