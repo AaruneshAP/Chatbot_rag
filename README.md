@@ -86,7 +86,7 @@ python -m streamlit run app.py
 # streamlit run app.py
 ```
 
-> *(Add UI screenshot here after running locally)*
+![Streamlit RAG Chatbot UI](assets/demo_qa_citations.png)
 
 ---
 
@@ -394,7 +394,14 @@ python -m streamlit run app.py
 # Or: streamlit run app.py
 ```
 
-> *(Add UI screenshot here after running locally)*
+#### 1. Interactive Q&A with Inline Citations & Faithfulness Audit
+![Interactive Q&A with Citations and Faithfulness Audit](assets/demo_qa_citations.png)
+
+#### 2. Configurable Retrieval Architecture & Raw Chunks Inspector
+![Sidebar Retrieval Inspector & Toggle](assets/demo_sidebar_inspector.png)
+
+#### 3. Live Anti-Hallucination Guardrail in Action (`q17` Refusal)
+![Live Guardrail Refusal on Out-of-Context Query](assets/demo_guardrail_refusal.png)
 
 ---
 
