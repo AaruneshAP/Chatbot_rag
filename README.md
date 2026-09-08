@@ -230,6 +230,143 @@ A forensic audit of the two queries scoring 0% Recall@5 across both methods reve
 
 ---
 
+## 🤖 Phase 3: Generation Layer & Citation-Enforced RAG (Groq API)
+
+Direct integration between the retrieval system and Groq's high-speed inference API, enforcing mandatory source citations (`[n]`) and a transparent, explainable lexical faithfulness verification heuristic. Built with **zero framework bloat** (direct Groq SDK calls; no LangChain, no LlamaIndex) for full architectural explainability.
+
+### 📌 Citation-Enforcement Prompt Strategy
+
+To prevent hallucinations and make every claim audit-verifiable, the generation prompt enforces three strict rules:
+1. **Context-Bound Grounding**: The LLM is instructed to answer using *only* facts directly stated in the retrieved documentation context.
+2. **Mandatory Bracketed Citations**: Every factual statement must cite its numbered context chunk (`[1]`, `[2]`), mapping claims directly to `source_library` and `page_or_section` metadata.
+3. **Explicit Refusal on Insufficient Evidence**: If the retrieved chunks lack sufficient detail, the system prompt explicitly forbids speculation and instructs the model to declare the lack of documentation evidence.
+
+```python
+# System prompt contract
+system_prompt = (
+    "You are an expert technical assistant for Python data science libraries "
+    "(Pandas, Scikit-Learn, and XGBoost).\n"
+    "Instructions:\n"
+    "1. Answer the user's question using ONLY the facts directly stated in the provided documentation context below.\n"
+    "2. Do NOT extrapolate, speculate, or introduce external knowledge not present in the context.\n"
+    "3. Cite every statement or claim with bracketed citation markers like [1], [2], etc., matching the numbered source chunk(s).\n"
+    "4. If the provided context does not contain sufficient information to answer the question, state explicitly: "
+    "'The provided documentation does not contain sufficient information to answer this question.' Do not guess."
+)
+```
+
+---
+
+### 🔍 Explainable Lexical Faithfulness Heuristic (`faithfulness.py`)
+
+Rather than treating faithfulness as a black-box metric, `faithfulness.py` implements an interpretable, white-box keyword overlap heuristic:
+1. **Sentence Claim Decomposition**: Splits the generated answer into individual assertion units and extracts all bracketed citation markers (`[n]`).
+2. **Stop-Word Filtered Tokenization**: Strips conversational syntax and extracts high-entropy keywords and programmatic identifiers (e.g. `drop_duplicates`, `inplace`, `min_samples_split`).
+3. **Lexical Overlap Score**: For each claim, computes the token intersection ratio against its cited source chunk(s):
+   $$\text{Overlap Score} = \frac{|\text{Keywords}_{\text{claim}} \cap \text{Keywords}_{\text{source}}|}{|\text{Keywords}_{\text{claim}}|}$$
+4. **Low-Confidence Flagging**: Any claim with $< 30\%$ keyword overlap to its cited chunk is flagged as `low_confidence`.
+
+#### ⚠️ Honest Limitations & Production Considerations
+- **Lightweight Proxy vs. Semantic Entailment**: This heuristic captures lexical word overlap. It will not catch nuanced syntactic negations (e.g. *"X does not do Y"* vs *"X does Y"*), nor can it understand deep paraphrasing where different vocabulary conveys equivalent meaning.
+- **Production Path**: In a production environment, this lightweight heuristic would be supplemented with:
+  1. **Cross-Encoder NLI Entailment**: Evaluating premise-hypothesis entailment via models like `roberta-large-mnli` or `deberta-v3-large`.
+  2. **LLM-as-a-Judge**: Prompting an independent model to verify claim-level attribution (e.g. Ragas / TruLens faithfulness criteria).
+  3. **Attribution Graph Extraction**: Parsing AST-level parameter references to guarantee exact argument names match library specifications.
+
+---
+
+### 💬 Live Generation & Citation Demos (`test_generate.py`)
+
+The following live Q&A samples were generated using Groq inference and audited through `faithfulness.py`:
+
+#### **Demo 1: Pandas Indexing (`.loc` vs `.iloc`)**
+- **User Question**: *"What's the difference between .loc and .iloc for indexing?"*
+- **Generated Answer**:
+  > The primary difference between `.loc` and `.iloc` in Pandas is the type of indexing they use:
+  > - **`.loc`** is used for **label-based selection**, which utilizes row and column names **`[1]`**.
+  > - **`.iloc`** is used for **position-based selection**, which utilizes table positions (integer positions from 0 to length-1 of the axis) **`[1][3]`**.
+  >
+  > Additionally, `.iloc` will raise an `IndexError` if a requested indexer is out-of-bounds, except for slice indexers which allow out-of-bounds indexing **`[3]`**. In contrast, `.loc` and `[]` indexing can accept a callable as an indexer **`[3]`**.
+- **Cited Sources**:
+  - `[1]` `[pandas]` `getting_started/intro_tutorials/03_subset_data.html`
+  - `[3]` `[pandas]` `user_guide/indexing.html`
+- **Faithfulness Audit**: **82.9% mean overlap**, **0 low-confidence sentences**.
+
+#### **Demo 2: Pandas Duplicates Handling (`drop_duplicates`)**
+- **User Question**: *"How do you handle duplicate rows with drop_duplicates, and what does the keep parameter control?"*
+- **Generated Answer**:
+  > To handle duplicate rows, you use the `drop_duplicates` method, which is available for `Series`, `Index`, and `DataFrame` objects **`[1], [2], [3]`**. The `keep` parameter controls which duplicate values are retained or removed, with the following options **`[1], [2], [3]`**:
+  > - **`'first'`** (default): Drops duplicates except for the first occurrence **`[1], [2], [3]`**.
+  > - **`'last'`**: Drops duplicates except for the last occurrence **`[1], [2], [3]`**.
+  > - **`False`**: Drops all duplicates **`[1], [2], [3]`**.
+  >
+  > For `DataFrame` objects specifically, you can optionally specify a `subset` of columns to consider when identifying duplicates; by default, all columns are used **`[3]`**.
+- **Cited Sources**:
+  - `[1]` `[pandas]` `reference/api/pandas.Series.drop_duplicates.html`
+  - `[2]` `[pandas]` `reference/api/pandas.Index.drop_duplicates.html`
+  - `[3]` `[pandas]` `reference/api/pandas.DataFrame.drop_duplicates.html`
+- **Faithfulness Audit**: **76.1% mean overlap**, **100% faithfulness rate**.
+
+#### **Demo 3: XGBoost Missing Value Mechanics**
+- **User Question**: *"How does XGBoost's built-in handling of missing values work?"*
+- **Generated Answer**:
+  > XGBoost supports missing values by default **`[2]`**. In tree algorithms, the branch directions for missing values are learned during the training process **`[2]`**. However, the `gblinear` booster treats missing values as zeros **`[2]`**.
+  >
+  > Additionally, if the `missing` parameter is specified, any values in the input predictor that are equal to the specified value will be treated as missing and removed **`[2]`**. The `missing` parameter is defined as the value in the input data which needs to be present as a missing value, and if set to `None`, it defaults to `np.nan` **`[4]`**.
+- **Cited Sources**:
+  - `[2]` `[xgboost]` `page_136` (Section 1.5.7 split mechanics)
+  - `[4]` `[xgboost]` `page_173` (DMatrix missing parameter documentation)
+#### **Demo 4: Anti-Hallucination Refusal (`q17`: `early_stopping_rounds`)**
+- **User Question**: *"What does early_stopping_rounds do, and how does it interact with eval_set?"*
+- **Generated Answer**:
+  > The provided documentation does not contain sufficient information to answer this question.
+  > 
+  > **Reasoning:**
+  > - **Regarding `early_stopping_rounds`:** The context mentions `early_stopping_rounds` in XGBoost documentation `[3]` and `[4]`. Specifically, `[4]` states that when `early_stopping_rounds` is specified, the "EarlyStopping callback is invoked inside iteration loop". However, the provided text does not explicitly define the *function* of `early_stopping_rounds` (i.e. stopping training if evaluation metric does not improve for a specified number of rounds) nor does it describe its interaction with `eval_set`.
+  > - **Regarding `eval_set`:** The term `eval_set` does not appear in any of the provided documentation chunks...
+- **Cited Sources**:
+  - `[2]` `[sklearn]` `modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html`
+  - `[3]` `[xgboost]` `page_45` (Feature interaction constraint code snippet)
+  - `[4]` `[xgboost]` `page_303` (Internal callback registration note)
+
+---
+
+### 🔎 Case Study: The `q17` Refusal — A Retrieval Failure That Did NOT Become a Generation Failure
+
+A forensic audit of Question 17 uncovered a critical end-to-end finding bridging Phase 2's retrieval benchmark and Phase 3's generation layer:
+
+#### 1. Why Phase 2 Scored `q17` as a Hit
+In Phase 2, `q17` was recorded as a **Recall@5 hit ($1.0$)**. This was because Phase 2 used a **library-routing proxy metric** (checking whether *at least one chunk from `expected_library: xgboost`* appeared in the top-5). Because `xgboost_p45_c0` (Rank 3) and `xgboost_p303_c1` (Rank 4) were retrieved, Phase 2 scored a benchmark success.
+
+#### 2. The Underlying PDF Extraction Defect (Concatenated Whitespace)
+Forensic inspection of `chunks.jsonl` revealed that the single chunk in the XGBoost corpus containing the true textual definition of early stopping is on **page 69 (`xgboost_p69_c1`)**:
+```text
+EarlyStopping
+Earlystoppingisactivatedbypassingearly_stopping_roundstoxgboost.train(). Itrequiresatleastonevalidationsetinevals. Trainingstopsifthevalidationmetricdoesnotimproveforthespecifiednumberofconsecutive rounds:
+```
+In `xgboost.pdf`, `pdfplumber` extracted these words **concatenated without spaces**. This is a **second, distinct PDF extraction bug**, completely separate from the earlier line-wrapped hyphenation issue (`fea-\nture_importances_`). Because the text lacked standard space delimiters (`Earlystoppingisactivated...`), BM25 could not tokenize the phrase into individual words, causing BM25 to rank it out of the top candidates.
+
+#### 3. What Actually Entered the Generation Prompt
+Instead of page 69, the retriever supplied:
+- **`page_45` (`xgboost_p45_c0`)**: A code snippet showing `early_stopping_rounds = 10` inside a tutorial on interaction constraints, containing zero explanatory prose.
+- **`page_303` (`xgboost_p303_c1`)**: An internal note stating `EarlyStopping callback is invoked inside iteration loop`, but without defining the stopping condition or `eval_set`.
+
+#### 4. The Engineering Takeaway
+Had the generation layer lacked strict grounding, a standard LLM would have drawn upon its parametric pretraining weights to hallucinate a generic explanation of early stopping. 
+
+Instead, because the generation prompt strictly enforced:
+1. *Answer ONLY from facts directly stated in the context*,
+2. *Do not speculate or introduce external knowledge*,
+3. *Explicitly refuse if context is insufficient*,
+
+the model **faithfully caught the information deficit** and refused to answer, precisely citing which chunks were checked and why they were inadequate. 
+
+> **Key Architectural Takeaway**: **A silent retrieval failure correctly did NOT become a generation failure.** The anti-hallucination guardrail held firm even when a proxy metric reported a retrieval success.
+> 
+> *(Note: Following our documented methodology, the PDF whitespace concatenation bug on page 69 is cataloged as a known corpus-quality issue for future re-extraction; `ingest.py` and benchmark results remain unmodified to maintain audit transparency).*
+
+---
+
 ## 💼 Interview Talking Points / Portfolio Defense
 
 1. **How does this pipeline handle rate limits and network drops?**  
