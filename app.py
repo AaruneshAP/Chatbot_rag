@@ -21,6 +21,8 @@ from faithfulness import evaluate_faithfulness
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+from embed import generate_and_store_embeddings, load_chunks, CHROMA_DB_DIR, CHUNKS_PATH
+
 # Page Configuration
 st.set_page_config(
     page_title="Data Science Docs RAG Chatbot",
@@ -28,6 +30,33 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+
+@st.cache_resource(show_spinner=False)
+def ensure_chroma_ready() -> bool:
+    """
+    Ensures ChromaDB vector store is populated.
+    If deployed on a fresh container (e.g. Streamlit Community Cloud)
+    where data/chroma_db does not yet exist, builds it from data/processed/chunks.jsonl.
+    """
+    sqlite_file = CHROMA_DB_DIR / "chroma.sqlite3"
+    if CHROMA_DB_DIR.exists() and sqlite_file.exists():
+        return True
+
+    if not CHUNKS_PATH.exists():
+        raise FileNotFoundError(
+            f"Processed chunks file not found at {CHUNKS_PATH}. "
+            "Please ensure data/processed/chunks.jsonl is present in the repository."
+        )
+
+    with st.spinner("📦 First-time deployment setup: Building ChromaDB vector database from chunks.jsonl (~1.5–2 min cold boot on CPU)..."):
+        chunks = load_chunks(CHUNKS_PATH)
+        generate_and_store_embeddings(chunks, chroma_dir=CHROMA_DB_DIR)
+    return True
+
+
+# Run startup readiness check
+ensure_chroma_ready()
 
 # -----------------------------------------------------------------------------
 # Sidebar: Configuration & Inspector Panels

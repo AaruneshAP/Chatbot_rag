@@ -405,6 +405,31 @@ python -m streamlit run app.py
 
 ---
 
+## ☁️ Deployment (Streamlit Community Cloud)
+
+This application is architected for seamless zero-downtime deployment on **Streamlit Community Cloud**.
+
+### 1. Architectural Strategy for Vector Store Persistence
+- **ChromaDB File Size Analysis**: Full local vector persistence (`data/chroma_db/`) totals ~180.8 MB across 13,116 chunks. However, its internal SQLite database (`chroma.sqlite3`) produces a **157.7 MB single binary file**, exceeding GitHub's strict **100.00 MB per-file push limit** (`GH001`).
+- **Clean In-Repo Chunking**: Instead of requiring Git LFS (which introduces third-party bandwidth caps and credential management issues on cloud runners), the lightweight, standardized text corpus (`data/processed/chunks.jsonl`, **22.91 MB**) is tracked directly in the Git repository.
+- **Cold Boot Auto-Initialization**: `app.py` implements an `@st.cache_resource` startup hook (`ensure_chroma_ready()`). When deployed to a fresh Linux container where `data/chroma_db` does not yet exist, it automatically builds and indexes the vector collection from `chunks.jsonl` in-memory/ephemeral disk during the initial cold boot (~1.5–2 minutes on cloud vCPU). All subsequent page reruns and queries query the persisted vector store with zero delay.
+
+### 2. Secrets Management & API Configuration
+The production environment does **not** rely on local `.env` files. Authentication keys are safely decoupled:
+1. Fork or push this repository to GitHub.
+2. Log into [Streamlit Community Cloud](https://share.streamlit.io/) and create a **New app** pointing to:
+   - **Repository**: `AaruneshAP/Chatbot_rag`
+   - **Branch**: `main`
+   - **Main file path**: `app.py`
+3. In the Streamlit Cloud dashboard, navigate to **App settings > Secrets**.
+4. Paste your Groq API key into the TOML secrets editor:
+   ```toml
+   GROQ_API_KEY = "gsk_your_actual_groq_api_key_here"
+   ```
+5. Click **Save**. Streamlit Cloud automatically injects secrets into environment variables and `st.secrets`. `generate.py` seamlessly picks up the key via `os.environ.get("GROQ_API_KEY")` and `st.secrets["GROQ_API_KEY"]`. **Never commit your actual API key to the repository.**
+
+---
+
 ## 💼 Interview Talking Points / Portfolio Defense
 
 1. **How does this pipeline handle rate limits and network drops?**  

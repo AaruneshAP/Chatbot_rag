@@ -18,7 +18,8 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-CHROMA_DB_DIR = Path("data/chroma_db")
+REPO_ROOT = Path(__file__).resolve().parent
+CHROMA_DB_DIR = REPO_ROOT / "data" / "chroma_db"
 COLLECTION_NAME = "ml_docs_rag"
 MODEL_NAME = "all-MiniLM-L6-v2"
 

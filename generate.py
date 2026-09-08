@@ -39,9 +39,18 @@ def get_groq_client() -> Groq:
     """Initializes and returns the Groq client, validating the API key."""
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
+        try:
+            import streamlit as st
+            if hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
+                api_key = str(st.secrets["GROQ_API_KEY"]).strip()
+        except Exception:
+            pass
+
+    if not api_key:
         raise ValueError(
             "GROQ_API_KEY is not set or empty. "
-            "Please add your Groq API key to .env (e.g. GROQ_API_KEY=gsk_...)."
+            "For local runs, add GROQ_API_KEY to your .env file. "
+            "For Streamlit Cloud, configure GROQ_API_KEY in App Settings > Secrets."
         )
     return Groq(api_key=api_key)
 

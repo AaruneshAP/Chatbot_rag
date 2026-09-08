@@ -21,7 +21,8 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-CHUNKS_PATH = Path("data/processed/chunks.jsonl")
+REPO_ROOT = Path(__file__).resolve().parent
+CHUNKS_PATH = REPO_ROOT / "data" / "processed" / "chunks.jsonl"
 RRF_K = 60 # Standard Reciprocal Rank Fusion smoothing constant
 
 _BM25_INDEX: Optional[BM25Okapi] = None

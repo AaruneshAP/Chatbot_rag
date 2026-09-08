@@ -3,7 +3,8 @@
 data/raw/*
 !data/raw/manifest.json
 data/chroma_db/
-data/processed/
+data/processed/*
+!data/processed/chunks.jsonl
 
 # Python cache
 __pycache__/

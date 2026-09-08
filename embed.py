@@ -31,8 +31,9 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-CHUNKS_PATH = Path("data/processed/chunks.jsonl")
-CHROMA_DB_DIR = Path("data/chroma_db")
+REPO_ROOT = Path(__file__).resolve().parent
+CHUNKS_PATH = REPO_ROOT / "data" / "processed" / "chunks.jsonl"
+CHROMA_DB_DIR = REPO_ROOT / "data" / "chroma_db"
 COLLECTION_NAME = "ml_docs_rag"
 MODEL_NAME = "all-MiniLM-L6-v2"
 BATCH_SIZE = 128
