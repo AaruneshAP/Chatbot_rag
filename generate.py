@@ -35,8 +35,12 @@ DEFAULT_GROQ_MODELS = [
 GROQ_MODEL = DEFAULT_GROQ_MODELS[0]
 
 
-def get_groq_client() -> Groq:
-    """Initializes and returns the Groq client, validating the API key."""
+def get_groq_client(max_retries: int = 0) -> Groq:
+    """
+    Initializes and returns the Groq client, validating the API key.
+    Sets max_retries=0 so rate-limits trigger immediate failover to the next
+    model rather than blocking the execution thread with 20-30s sleep delays.
+    """
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
         try:
@@ -52,7 +56,7 @@ def get_groq_client() -> Groq:
             "For local runs, add GROQ_API_KEY to your .env file. "
             "For Streamlit Cloud, configure GROQ_API_KEY in App Settings > Secrets."
         )
-    return Groq(api_key=api_key)
+    return Groq(api_key=api_key, max_retries=max_retries)
 
 
 def build_prompt_context(chunks: List[Dict[str, Any]]) -> str:
@@ -121,10 +125,11 @@ def generate_answer(
         f"Answer with citations:"
     )
 
-    # 4. Direct Groq chat completion call with automatic model fallback
+    # 4. Direct Groq chat completion call with automatic model and rate-limit failover
     completion = None
     chosen_model = None
     last_error = None
+    failover_history: List[str] = []
 
     for model_candidate in DEFAULT_GROQ_MODELS:
         try:
@@ -140,13 +145,24 @@ def generate_answer(
             chosen_model = model_candidate
             break
         except Exception as err:
+            err_str = str(err).lower()
             last_error = err
-            if "model_not_found" in str(err) or "does not exist" in str(err):
+            # Check for model not found / deleted
+            if "model_not_found" in err_str or "does not exist" in err_str:
+                failover_history.append(f"{model_candidate} (not found)")
+                continue
+            # Check for 429 RateLimit (TPM / RPM) exhaustion
+            if "rate_limit" in err_str or "429" in err_str or "rate limit" in err_str:
+                print(f"[FAILOVER] Model '{model_candidate}' rate-limited (429). Rotating to next candidate model...", flush=True)
+                failover_history.append(f"{model_candidate} (rate-limited 429)")
                 continue
             raise err
 
     if completion is None:
         raise RuntimeError(f"All attempted Groq models failed. Last error: {last_error}")
+
+    failover_note = f"Failed over from {', '.join(failover_history)}" if failover_history else None
+    print(f"[GENERATE] Completed with model: '{chosen_model}'" + (f" | {failover_note}" if failover_note else ""), flush=True)
 
     answer_text = completion.choices[0].message.content.strip()
 
@@ -171,6 +187,7 @@ def generate_answer(
         "answer": answer_text,
         "cited_sources": cited_sources,
         "model": chosen_model,
+        "failover_note": failover_note,
         "usage": {
             "prompt_tokens": completion.usage.prompt_tokens if completion.usage else 0,
             "completion_tokens": completion.usage.completion_tokens if completion.usage else 0,

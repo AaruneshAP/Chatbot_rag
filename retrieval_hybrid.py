@@ -25,9 +25,10 @@ REPO_ROOT = Path(__file__).resolve().parent
 CHUNKS_PATH = REPO_ROOT / "data" / "processed" / "chunks.jsonl"
 RRF_K = 60 # Standard Reciprocal Rank Fusion smoothing constant
 
-_BM25_INDEX: Optional[BM25Okapi] = None
-_CORPUS_CHUNKS: Optional[List[Dict[str, Any]]] = None
-_CHUNK_MAP: Optional[Dict[str, Dict[str, Any]]] = None
+# Lazy-loaded singletons with Streamlit resource caching support
+_FALLBACK_BM25_INDEX: Optional[BM25Okapi] = None
+_FALLBACK_CORPUS_CHUNKS: Optional[List[Dict[str, Any]]] = None
+_FALLBACK_CHUNK_MAP: Optional[Dict[str, Dict[str, Any]]] = None
 
 
 def simple_tokenize(text: str) -> List[str]:
@@ -38,15 +39,15 @@ def simple_tokenize(text: str) -> List[str]:
     return re.findall(r"[a-zA-Z0-9_]+", text.lower())
 
 
-def get_bm25_index():
-    """Lazy-loads the chunks.jsonl corpus and builds the BM25 index."""
-    global _BM25_INDEX, _CORPUS_CHUNKS, _CHUNK_MAP
-    if _BM25_INDEX is None:
+def _build_bm25_index():
+    """Builds and caches the BM25 index and corpus lookups from chunks.jsonl."""
+    global _FALLBACK_BM25_INDEX, _FALLBACK_CORPUS_CHUNKS, _FALLBACK_CHUNK_MAP
+    if _FALLBACK_BM25_INDEX is None:
         if not CHUNKS_PATH.exists():
             raise FileNotFoundError(f"Chunks file not found at {CHUNKS_PATH}. Run ingest.py first!")
 
-        _CORPUS_CHUNKS = []
-        _CHUNK_MAP = {}
+        corpus_chunks = []
+        chunk_map = {}
         tokenized_corpus = []
 
         with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
@@ -54,13 +55,22 @@ def get_bm25_index():
                 line = line.strip()
                 if line:
                     chunk = json.loads(line)
-                    _CORPUS_CHUNKS.append(chunk)
-                    _CHUNK_MAP[chunk["chunk_id"]] = chunk
+                    corpus_chunks.append(chunk)
+                    chunk_map[chunk["chunk_id"]] = chunk
                     tokenized_corpus.append(simple_tokenize(chunk["text"]))
 
-        _BM25_INDEX = BM25Okapi(tokenized_corpus)
+        _FALLBACK_BM25_INDEX = BM25Okapi(tokenized_corpus)
+        _FALLBACK_CORPUS_CHUNKS = corpus_chunks
+        _FALLBACK_CHUNK_MAP = chunk_map
 
-    return _BM25_INDEX, _CORPUS_CHUNKS, _CHUNK_MAP
+    return _FALLBACK_BM25_INDEX, _FALLBACK_CORPUS_CHUNKS, _FALLBACK_CHUNK_MAP
+
+
+try:
+    import streamlit as st
+    get_bm25_index = st.cache_resource(show_spinner=False)(_build_bm25_index)
+except Exception:
+    get_bm25_index = _build_bm25_index
 
 
 def retrieve_bm25(query: str, top_k: int = 10) -> List[Dict[str, Any]]:

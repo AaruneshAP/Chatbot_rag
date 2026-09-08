@@ -23,26 +23,35 @@ CHROMA_DB_DIR = REPO_ROOT / "data" / "chroma_db"
 COLLECTION_NAME = "ml_docs_rag"
 MODEL_NAME = "all-MiniLM-L6-v2"
 
-# Global lazy-loaded singletons to avoid re-loading weights on each call
-_MODEL: Optional[SentenceTransformer] = None
-_COLLECTION = None
+# Lazy-loaded singletons with Streamlit resource caching support
+_FALLBACK_MODEL: Optional[SentenceTransformer] = None
+_FALLBACK_COLLECTION = None
 
 
-def get_model() -> SentenceTransformer:
-    global _MODEL
-    if _MODEL is None:
-        _MODEL = SentenceTransformer(MODEL_NAME)
-    return _MODEL
+def _load_model() -> SentenceTransformer:
+    global _FALLBACK_MODEL
+    if _FALLBACK_MODEL is None:
+        _FALLBACK_MODEL = SentenceTransformer(MODEL_NAME)
+    return _FALLBACK_MODEL
 
 
-def get_collection():
-    global _COLLECTION
-    if _COLLECTION is None:
+def _load_collection():
+    global _FALLBACK_COLLECTION
+    if _FALLBACK_COLLECTION is None:
         if not CHROMA_DB_DIR.exists():
             raise FileNotFoundError(f"ChromaDB directory not found at {CHROMA_DB_DIR}. Run embed.py first!")
         client = chromadb.PersistentClient(path=str(CHROMA_DB_DIR), settings=Settings(anonymized_telemetry=False))
-        _COLLECTION = client.get_collection(name=COLLECTION_NAME)
-    return _COLLECTION
+        _FALLBACK_COLLECTION = client.get_collection(name=COLLECTION_NAME)
+    return _FALLBACK_COLLECTION
+
+
+try:
+    import streamlit as st
+    get_model = st.cache_resource(show_spinner=False)(_load_model)
+    get_collection = st.cache_resource(show_spinner=False)(_load_collection)
+except Exception:
+    get_model = _load_model
+    get_collection = _load_collection
 
 
 def retrieve_vector(query: str, top_k: int = 5) -> List[Dict[str, Any]]:

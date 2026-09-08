@@ -145,10 +145,19 @@ for msg_idx, msg in enumerate(st.session_state.messages):
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-        # Display citations and faithfulness only for assistant responses
-        if msg["role"] == "assistant" and "cited_sources" in msg:
-            cited_sources = msg["cited_sources"]
-            faith = msg.get("faithfulness")
+        # Display model, citations, and faithfulness only for assistant responses
+        if msg["role"] == "assistant":
+            model_used = msg.get("model")
+            failover_note = msg.get("failover_note")
+            if model_used:
+                caption = f"⚡ **Model**: `{model_used}`"
+                if failover_note:
+                    caption += f" *(🔄 {failover_note})*"
+                st.caption(caption)
+
+            if "cited_sources" in msg:
+                cited_sources = msg["cited_sources"]
+                faith = msg.get("faithfulness")
 
             # Faithfulness Metric Bar
             if faith:
@@ -203,6 +212,14 @@ if user_query := st.chat_input("Ask a question (e.g. 'What is the difference bet
                 # Display answer text
                 st.markdown(answer_text)
 
+                # Display generating model and failover indicator
+                model_used = gen_result.get("model", "unknown")
+                failover_note = gen_result.get("failover_note")
+                caption = f"⚡ **Model**: `{model_used}`"
+                if failover_note:
+                    caption += f" *(🔄 {failover_note})*"
+                st.caption(caption)
+
                 # Display Faithfulness indicators
                 col1, col2, col3 = st.columns(3)
                 col1.metric("Faithfulness Rate", f"{faith_result['overall_faithfulness_rate']:.0%}")
@@ -233,7 +250,9 @@ if user_query := st.chat_input("Ask a question (e.g. 'What is the difference bet
                     "role": "assistant",
                     "content": answer_text,
                     "cited_sources": cited_sources,
-                    "faithfulness": faith_result
+                    "faithfulness": faith_result,
+                    "model": model_used,
+                    "failover_note": failover_note,
                 })
 
             except ValueError as ve:
