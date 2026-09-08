@@ -78,6 +78,14 @@ Vectorizes all chunks using `all-MiniLM-L6-v2` and persists to `data/chroma_db/`
 python embed.py
 ```
 
+### 5. Launch the Streamlit Chatbot UI
+Run the interactive web application locally:
+```bash
+streamlit run app.py
+```
+
+> *(Add UI screenshot here after running locally)*
+
 ---
 
 ## 🧠 Architectural & Design Decisions
@@ -364,6 +372,26 @@ the model **faithfully caught the information deficit** and refused to answer, p
 > **Key Architectural Takeaway**: **A silent retrieval failure correctly did NOT become a generation failure.** The anti-hallucination guardrail held firm even when a proxy metric reported a retrieval success.
 > 
 > *(Note: Following our documented methodology, the PDF whitespace concatenation bug on page 69 is cataloged as a known corpus-quality issue for future re-extraction; `ingest.py` and benchmark results remain unmodified to maintain audit transparency).*
+
+---
+
+## 🖥️ Phase 4: Interactive Streamlit UI (`app.py`)
+
+A clean, single-page Streamlit application providing an interactive conversational interface for the RAG pipeline.
+
+### 🌟 Key UI Features
+- **Configurable Retrieval Toggle**: Switch between **Vector-only (ChromaDB)** and **Hybrid (BM25 + Vector RRF)** via the sidebar. Defaults to Vector-only based on the Phase 2 benchmark win.
+- **Clickable / Expandable Citations**: Every assistant response renders inline bracketed citations (`[1]`, `[2]`), accompanied by an expandable **"Cited Sources"** drawer detailing the exact library, section/page, and text snippet.
+- **Real-Time Faithfulness Metric Bar**: Automatically displays the overall faithfulness rate, mean keyword overlap score, and a breakdown of flagged sentences with an explicit disclaimer that this is a lightweight lexical proxy heuristic.
+- **Retrieval Inspector**: A dedicated sidebar inspector that renders the raw top-5 retrieved chunks for the latest query, allowing viewers and interviewers to observe retrieval and generation as distinct, transparent phases.
+- **Clean Session State**: Maintains persistent, scrollable chat history within the active browser session.
+
+### 🚀 Running the UI Locally
+```bash
+streamlit run app.py
+```
+
+> *(Add UI screenshot here after running locally)*
 
 ---
 
