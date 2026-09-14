@@ -12,7 +12,8 @@ Scikit-Learn, and XGBoost with:
 import os
 import sys
 import streamlit as st
-import subprocess
+import time
+import requests
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -26,6 +27,9 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 
 REPO_ROOT = Path(__file__).resolve().parent
 CHROMA_DB_DIR = REPO_ROOT / "data" / "chroma_db"
+CHROMA_SQLITE_PATH = CHROMA_DB_DIR / "chroma.sqlite3"
+CHROMA_SQLITE_LFS_URL = "https://media.githubusercontent.com/media/AaruneshAP/Chatbot_rag/main/data/chroma_db/chroma.sqlite3"
+MIN_VALID_SQLITE_BYTES = 100 * 1024 * 1024  # Real DB is ~157MB; pointer is ~134 bytes
 
 # Page Configuration
 st.set_page_config(
@@ -36,35 +40,75 @@ st.set_page_config(
 )
 
 
-LFS_MEDIA_URL = "https://media.githubusercontent.com/media/AaruneshAP/Chatbot_rag/main/data/chroma_db/chroma.sqlite3"
-
-
-def _is_valid_sqlite_db(file_path: Path) -> bool:
-    """Checks if a file exists, is non-trivial in size, and begins with the SQLite magic header."""
-    if not file_path.exists() or file_path.stat().st_size < 1024:
-        return False
+def _is_lfs_pointer_or_missing(file_path: Path) -> bool:
+    """
+    Checks if the SQLite file is missing, corrupted, or an unsmudged Git LFS pointer stub.
+    Requires BOTH the 16-byte SQLite header AND substantial binary size (>= 100MB).
+    """
+    if not file_path.exists():
+        return True
     try:
+        file_size = file_path.stat().st_size
         with open(file_path, "rb") as f:
             header = f.read(16)
-        return header == b"SQLite format 3\x00"
+        # Both checks must pass together: magic header AND realistic size
+        is_valid = (header == b"SQLite format 3\x00") and (file_size >= MIN_VALID_SQLITE_BYTES)
+        return not is_valid
     except Exception:
-        return False
+        return True
 
 
-def _download_lfs_file(target_file: Path, url: str) -> None:
-    """Streams the LFS-backed binary directly from GitHub media CDN if unhydrated."""
-    import urllib.request
-    target_file.parent.mkdir(parents=True, exist_ok=True)
-    temp_file = target_file.with_suffix(".tmp")
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 StreamlitApp"})
-    with urllib.request.urlopen(req, timeout=120) as response, open(temp_file, "wb") as out_file:
-        chunk_size = 1024 * 1024  # 1MB chunks
-        while True:
-            chunk = response.read(chunk_size)
-            if not chunk:
-                break
-            out_file.write(chunk)
-    temp_file.replace(target_file)
+def _download_lfs_binary_with_retries(
+    dest_path: Path,
+    url: str,
+    max_retries: int = 3,
+    backoff_factor: float = 2.0,
+    timeout: int = 60,
+) -> bool:
+    """
+    Downloads remote LFS binary from GitHub media CDN with 3 retry attempts,
+    exponential backoff, and 64KB chunk streaming directly to disk.
+    Follows the fetch_docs.py streaming and verification pattern.
+    """
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = dest_path.with_suffix(".tmp")
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) StreamlitApp/1.0"}
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            with requests.get(url, headers=headers, stream=True, timeout=timeout, allow_redirects=True) as resp:
+                if resp.status_code == 404:
+                    return False
+                resp.raise_for_status()
+
+                # Stream to disk in 64KB chunks
+                with open(temp_path, "wb") as f:
+                    for chunk in resp.iter_content(chunk_size=64 * 1024):
+                        if chunk:
+                            f.write(chunk)
+
+                # Validate downloaded temp file before replacing
+                if temp_path.exists():
+                    temp_size = temp_path.stat().st_size
+                    with open(temp_path, "rb") as f:
+                        header = f.read(16)
+                    if (header == b"SQLite format 3\x00") and (temp_size >= MIN_VALID_SQLITE_BYTES):
+                        temp_path.replace(dest_path)
+                        return True
+                    else:
+                        if temp_path.exists():
+                            temp_path.unlink()
+
+        except Exception:
+            if temp_path.exists():
+                try:
+                    temp_path.unlink()
+                except Exception:
+                    pass
+            if attempt < max_retries:
+                time.sleep(backoff_factor ** attempt)
+
+    return False
 
 
 @st.cache_resource(show_spinner=False)
@@ -72,29 +116,28 @@ def ensure_chroma_ready() -> bool:
     """
     Verifies that the pre-built ChromaDB vector store is present.
     If the deployment container only cloned the Git LFS pointer text file,
-    hydrates the 157.7 MB SQLite binary directly from GitHub's media CDN.
-    Zero embedding computation occurs on container boot.
+    downloads the real 157.7 MB SQLite binary directly from GitHub's LFS media CDN
+    with streaming and exponential backoff.
+    Wrapped in @st.cache_resource to run only once per container boot.
     """
-    sqlite_file = CHROMA_DB_DIR / "chroma.sqlite3"
+    if _is_lfs_pointer_or_missing(CHROMA_SQLITE_PATH):
+        with st.spinner("📦 First-boot setup: Hydrating pre-built ChromaDB vector database from Git LFS (~5–10s)..."):
+            download_success = _download_lfs_binary_with_retries(
+                dest_path=CHROMA_SQLITE_PATH,
+                url=CHROMA_SQLITE_LFS_URL,
+                max_retries=3,
+                backoff_factor=2.0,
+                timeout=60,
+            )
 
-    # If file is missing or is an unhydrated Git LFS pointer file, hydrate from LFS CDN
-    if not _is_valid_sqlite_db(sqlite_file):
-        with st.spinner("📥 Fetching pre-built ChromaDB vector database from Git LFS (~5–10s one-time download)..."):
-            try:
-                _download_lfs_file(sqlite_file, LFS_MEDIA_URL)
-            except Exception as dl_err:
-                # Fallback to git lfs pull if host has git-lfs CLI available
-                try:
-                    subprocess.run(["git", "lfs", "install"], cwd=REPO_ROOT, check=False, capture_output=True)
-                    subprocess.run(["git", "lfs", "pull"], cwd=REPO_ROOT, check=False, capture_output=True)
-                except Exception:
-                    pass
-
-    if not _is_valid_sqlite_db(sqlite_file):
-        raise FileNotFoundError(
-            f"ChromaDB vector database at {sqlite_file} is missing or is still an unhydrated Git LFS pointer file. "
-            "Please ensure the pre-built vector database is pulled via Git LFS."
-        )
+        if not download_success or _is_lfs_pointer_or_missing(CHROMA_SQLITE_PATH):
+            st.error(
+                "❌ **Critical Deployment Error**: Failed to hydrate the pre-built ChromaDB database from Git LFS.\n\n"
+                f"- **Expected File**: `{CHROMA_SQLITE_PATH}` (~157 MB with `b'SQLite format 3\\x00'`)\n"
+                f"- **Current State**: {CHROMA_SQLITE_PATH.stat().st_size if CHROMA_SQLITE_PATH.exists() else 'Missing'} bytes\n\n"
+                "Please check container outbound network access or rebuild the container."
+            )
+            st.stop()
 
     # Warm up ChromaDB collection on startup
     get_collection()

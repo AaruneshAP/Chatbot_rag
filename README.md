@@ -433,12 +433,17 @@ In the initial deployment attempt, vector database indexing was deferred to cont
 - **Measured Cold Start Duration**: The actual measured cold-start rebuild took **19m52s** on Streamlit Community Cloud's shared vCPU runner.
 - **Severe CPU-Throttling Pattern**: Processing initially ran at **~3.9s per batch**. However, as sustained high CPU load triggered the cloud provider's aggressive compute throttling, throughput deteriorated by an order of magnitude to **35–42s per batch** starting around the 80% completion mark. This created unacceptable container initialization stalls and elevated the risk of gateway dropouts and healthcheck timeouts.
 
-#### The Production Solution: Pre-Built Vector DB Committed via Git LFS
-To eliminate runtime embedding overhead and container throttling completely, the deployment strategy was transitioned to a pre-built, verified ChromaDB index committed via **Git LFS**:
+#### The Production Solution: Pre-Built Vector DB via Git LFS & First-Boot CDN Hydration
+To eliminate runtime embedding overhead and container throttling completely, the deployment strategy was transitioned to a pre-built, verified ChromaDB index:
 - **Binary Segmentation**: The persistent vector store (`data/chroma_db/`) consists of the internal SQLite database (`chroma.sqlite3`, **157.7 MB**) and accompanying HNSW index binaries (`data_level0.bin`, metadata pickles; ~22 MB total).
-- **Git Large File Storage (Git LFS)**: `data/chroma_db/chroma.sqlite3` is tracked via Git LFS (`git lfs track "data/chroma_db/chroma.sqlite3"`), while the smaller HNSW index files reside directly within Git's native tree under the 100 MB limit.
-- **Native Streamlit Cloud Compatibility**: Streamlit Community Cloud natively supports Git LFS during repository checkout, pulling the 157.7 MB binary seamlessly into the container filesystem without requiring external object storage (e.g. S3/GCS) or custom download scripts.
-- **Zero Runtime Embedding Computation**: `app.py` simply verifies the presence of `data/chroma_db/chroma.sqlite3` on boot. Startup no longer computes embeddings at runtime—cold start latency drops from **19m52s** down to a few seconds, paying only for Python package initialization and embedding model weight loading.
+- **Git Large File Storage (Git LFS)**: `data/chroma_db/chroma.sqlite3` is tracked via Git LFS (`git lfs track "data/chroma_db/chroma.sqlite3"`), storing the 157.7 MB binary on GitHub's LFS infrastructure while keeping the Git tree lightweight with a 134-byte pointer stub. The remaining HNSW index files reside directly within Git's native tree as standard blobs under the 100 MB limit.
+- **Streamlit Community Cloud LFS Smudging Limitation**: Empirical testing on Streamlit Community Cloud confirmed that the platform's default git checkout does not run the Git LFS smudge filter during container provisioning, leaving `data/chroma_db/chroma.sqlite3` as the 134-byte ASCII pointer stub.
+- **Resilient First-Boot CDN Hydration**: To solve this without requiring external object storage (e.g., S3/GCS) or fragile OS-level package scripts, `app.py` implements an automated hydration hook in `ensure_chroma_ready()`:
+  1. **Dual Validation**: Inspects `chroma.sqlite3` checking BOTH file size (real DB is >= 100 MB vs. 134-byte pointer) AND the 16-byte SQLite magic header (`b"SQLite format 3\x00"`).
+  2. **Direct CDN Streaming**: If an unsmudged pointer or missing file is detected, it streams the 157.7 MB binary directly from GitHub's raw LFS CDN endpoint (`media.githubusercontent.com`) in 64KB chunks.
+  3. **Fault Tolerance**: Implements 3 retry attempts with exponential backoff (2.0 factor) and a 60s timeout, writing to a `.tmp` file before atomic replacement.
+  4. **Container Lifetime Caching**: Wrapped in `@st.cache_resource` so hydration runs exactly once per container cold boot (~5–10 seconds), with zero delay on all subsequent page reruns and queries.
+- **Zero Runtime Embedding Computation**: Cold start latency drops from **19m52s** down to just a few seconds—paying only for model weight loading into memory, with **0.0 seconds spent computing embeddings**.
 
 ### 2. Secrets Management & API Configuration
 The production environment does **not** rely on local `.env` files. Authentication keys are safely decoupled:
