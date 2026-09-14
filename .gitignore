@@ -2,7 +2,6 @@
 # (reproducible via fetch_docs.py, ingest.py, and embed.py)
 data/raw/*
 !data/raw/manifest.json
-data/chroma_db/
 data/processed/*
 !data/processed/chunks.jsonl
 

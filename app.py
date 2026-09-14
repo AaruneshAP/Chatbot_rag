@@ -12,6 +12,7 @@ Scikit-Learn, and XGBoost with:
 import os
 import sys
 import streamlit as st
+from pathlib import Path
 from typing import List, Dict, Any
 
 from generate import generate_answer
@@ -21,7 +22,8 @@ from faithfulness import evaluate_faithfulness
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from embed import generate_and_store_embeddings, load_chunks, CHROMA_DB_DIR, CHUNKS_PATH
+REPO_ROOT = Path(__file__).resolve().parent
+CHROMA_DB_DIR = REPO_ROOT / "data" / "chroma_db"
 
 # Page Configuration
 st.set_page_config(
@@ -35,23 +37,16 @@ st.set_page_config(
 @st.cache_resource(show_spinner=False)
 def ensure_chroma_ready() -> bool:
     """
-    Ensures ChromaDB vector store is populated.
-    If deployed on a fresh container (e.g. Streamlit Community Cloud)
-    where data/chroma_db does not yet exist, builds it from data/processed/chunks.jsonl.
+    Verifies that the pre-built ChromaDB vector store is present.
+    Vector database is committed via Git LFS so zero embedding computation
+    occurs at runtime or container startup.
     """
     sqlite_file = CHROMA_DB_DIR / "chroma.sqlite3"
-    if CHROMA_DB_DIR.exists() and sqlite_file.exists():
-        return True
-
-    if not CHUNKS_PATH.exists():
+    if not (CHROMA_DB_DIR.exists() and sqlite_file.exists()):
         raise FileNotFoundError(
-            f"Processed chunks file not found at {CHUNKS_PATH}. "
-            "Please ensure data/processed/chunks.jsonl is present in the repository."
+            f"ChromaDB vector database not found at {sqlite_file}. "
+            "Ensure the pre-built vector database is tracked and pulled via Git LFS (git lfs pull)."
         )
-
-    with st.spinner("📦 First-time deployment setup: Building ChromaDB vector database from chunks.jsonl (~1.5–2 min cold boot on CPU)..."):
-        chunks = load_chunks(CHUNKS_PATH)
-        generate_and_store_embeddings(chunks, chroma_dir=CHROMA_DB_DIR)
     return True
 
 

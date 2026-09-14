@@ -5,7 +5,7 @@
 
 > 🌐 **Live Interactive Web App**: **[https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/](https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/)**  
 > Experience the full RAG system live with interactive citation inspection, real-time lexical faithfulness auditing, and configurable hybrid/vector retrieval toggles.  
-> *(Note: Streamlit Community Cloud spins down idle containers. If the app is waking from a cold start, initial container boot and vector index loading may take from a few seconds up to ~1–2 minutes).*
+> *(Note: Streamlit Community Cloud spins down idle containers. The pre-built vector database is tracked and loaded directly via Git LFS, eliminating runtime embedding computation entirely so cold boot only incurs a few seconds for model loading).*
 
 A robust, self-contained document ingestion and retrieval pipeline designed for a RAG (Retrieval-Augmented Generation) system. This project automates the fetching, parsing, chunking, and vector indexing of official documentation for **Pandas**, **XGBoost**, and **Scikit-Learn**.
 
@@ -424,12 +424,21 @@ python -m streamlit run app.py
 
 This application is deployed live on **Streamlit Community Cloud** at:  
 👉 **[https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/](https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/)**  
-*(Note: If waking from an idle state, container coldstart and initial ChromaDB vector loading may take from a few seconds to ~1–2 minutes).*
+*(Note: Streamlit Community Cloud spins down idle containers. Cold start now takes only a few seconds to load model weights into memory; zero embedding computation occurs on boot).*
 
-### 1. Architectural Strategy for Vector Store Persistence
-- **ChromaDB File Size Analysis**: Full local vector persistence (`data/chroma_db/`) totals ~180.8 MB across 13,116 chunks. However, its internal SQLite database (`chroma.sqlite3`) produces a **157.7 MB single binary file**, exceeding GitHub's strict **100.00 MB per-file push limit** (`GH001`).
-- **Clean In-Repo Chunking**: Instead of requiring Git LFS (which introduces third-party bandwidth caps and credential management issues on cloud runners), the lightweight, standardized text corpus (`data/processed/chunks.jsonl`, **22.91 MB**) is tracked directly in the Git repository.
-- **Cold Boot Auto-Initialization**: `app.py` implements an `@st.cache_resource` startup hook (`ensure_chroma_ready()`). When deployed to a fresh Linux container where `data/chroma_db` does not yet exist, it automatically builds and indexes the vector collection from `chunks.jsonl` in-memory/ephemeral disk during the initial cold boot (~1.5–2 minutes on cloud vCPU). All subsequent page reruns and queries query the persisted vector store with zero delay.
+### 1. Architectural Evolution: Rebuild-on-Boot vs. Pre-Built Git LFS
+
+#### The Failure Mode of Rebuild-on-Boot (Measured 19m52s Cold Start)
+In the initial deployment attempt, vector database indexing was deferred to container startup via an on-boot hook reading `data/processed/chunks.jsonl`. While functional on a local workstation, this architecture failed under cloud container constraints:
+- **Measured Cold Start Duration**: The actual measured cold-start rebuild took **19m52s** on Streamlit Community Cloud's shared vCPU runner.
+- **Severe CPU-Throttling Pattern**: Processing initially ran at **~3.9s per batch**. However, as sustained high CPU load triggered the cloud provider's aggressive compute throttling, throughput deteriorated by an order of magnitude to **35–42s per batch** starting around the 80% completion mark. This created unacceptable container initialization stalls and elevated the risk of gateway dropouts and healthcheck timeouts.
+
+#### The Production Solution: Pre-Built Vector DB Committed via Git LFS
+To eliminate runtime embedding overhead and container throttling completely, the deployment strategy was transitioned to a pre-built, verified ChromaDB index committed via **Git LFS**:
+- **Binary Segmentation**: The persistent vector store (`data/chroma_db/`) consists of the internal SQLite database (`chroma.sqlite3`, **157.7 MB**) and accompanying HNSW index binaries (`data_level0.bin`, metadata pickles; ~22 MB total).
+- **Git Large File Storage (Git LFS)**: `data/chroma_db/chroma.sqlite3` is tracked via Git LFS (`git lfs track "data/chroma_db/chroma.sqlite3"`), while the smaller HNSW index files reside directly within Git's native tree under the 100 MB limit.
+- **Native Streamlit Cloud Compatibility**: Streamlit Community Cloud natively supports Git LFS during repository checkout, pulling the 157.7 MB binary seamlessly into the container filesystem without requiring external object storage (e.g. S3/GCS) or custom download scripts.
+- **Zero Runtime Embedding Computation**: `app.py` simply verifies the presence of `data/chroma_db/chroma.sqlite3` on boot. Startup no longer computes embeddings at runtime—cold start latency drops from **19m52s** down to a few seconds, paying only for Python package initialization and embedding model weight loading.
 
 ### 2. Secrets Management & API Configuration
 The production environment does **not** rely on local `.env` files. Authentication keys are safely decoupled:
