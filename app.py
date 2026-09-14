@@ -12,11 +12,13 @@ Scikit-Learn, and XGBoost with:
 import os
 import sys
 import streamlit as st
+import subprocess
 from pathlib import Path
 from typing import List, Dict, Any
 
 from generate import generate_answer
 from faithfulness import evaluate_faithfulness
+from retrieval_vector import get_collection
 
 # Ensure UTF-8 console encoding
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
@@ -34,19 +36,47 @@ st.set_page_config(
 )
 
 
+def _is_valid_sqlite_db(file_path: Path) -> bool:
+    """Checks if a file exists, is non-trivial in size, and begins with the SQLite magic header."""
+    if not file_path.exists() or file_path.stat().st_size < 1024:
+        return False
+    try:
+        with open(file_path, "rb") as f:
+            header = f.read(16)
+        return header == b"SQLite format 3\x00"
+    except Exception:
+        return False
+
+
 @st.cache_resource(show_spinner=False)
 def ensure_chroma_ready() -> bool:
     """
     Verifies that the pre-built ChromaDB vector store is present.
-    Vector database is committed via Git LFS so zero embedding computation
-    occurs at runtime or container startup.
+    If the deployment container only cloned the Git LFS pointer text file,
+    automatically invokes `git lfs pull` to hydrate the 157.7 MB SQLite binary.
+    Zero embedding computation occurs on container boot.
     """
     sqlite_file = CHROMA_DB_DIR / "chroma.sqlite3"
-    if not (CHROMA_DB_DIR.exists() and sqlite_file.exists()):
+
+    # If file is missing or is an unhydrated Git LFS pointer file, pull via git lfs
+    if not _is_valid_sqlite_db(sqlite_file):
+        with st.spinner("📥 Fetching pre-built ChromaDB vector database via Git LFS (one-time fast download)..."):
+            try:
+                subprocess.run(["git", "lfs", "install"], cwd=REPO_ROOT, check=False, capture_output=True)
+                pull_res = subprocess.run(["git", "lfs", "pull"], cwd=REPO_ROOT, capture_output=True, text=True)
+                if pull_res.returncode != 0:
+                    st.warning(f"Git LFS pull note: {pull_res.stderr.strip()}")
+            except Exception as e:
+                st.warning(f"Git LFS command execution failed: {e}")
+
+    if not _is_valid_sqlite_db(sqlite_file):
         raise FileNotFoundError(
-            f"ChromaDB vector database not found at {sqlite_file}. "
-            "Ensure the pre-built vector database is tracked and pulled via Git LFS (git lfs pull)."
+            f"ChromaDB vector database at {sqlite_file} is missing or is still an unhydrated Git LFS pointer file. "
+            "Please ensure Git LFS is enabled or run 'git lfs pull'."
         )
+
+    # Warm up ChromaDB collection on startup
+    get_collection()
     return True
 
 
