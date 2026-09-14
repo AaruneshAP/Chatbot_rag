@@ -36,6 +36,9 @@ st.set_page_config(
 )
 
 
+LFS_MEDIA_URL = "https://media.githubusercontent.com/media/AaruneshAP/Chatbot_rag/main/data/chroma_db/chroma.sqlite3"
+
+
 def _is_valid_sqlite_db(file_path: Path) -> bool:
     """Checks if a file exists, is non-trivial in size, and begins with the SQLite magic header."""
     if not file_path.exists() or file_path.stat().st_size < 1024:
@@ -48,31 +51,49 @@ def _is_valid_sqlite_db(file_path: Path) -> bool:
         return False
 
 
+def _download_lfs_file(target_file: Path, url: str) -> None:
+    """Streams the LFS-backed binary directly from GitHub media CDN if unhydrated."""
+    import urllib.request
+    target_file.parent.mkdir(parents=True, exist_ok=True)
+    temp_file = target_file.with_suffix(".tmp")
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 StreamlitApp"})
+    with urllib.request.urlopen(req, timeout=120) as response, open(temp_file, "wb") as out_file:
+        chunk_size = 1024 * 1024  # 1MB chunks
+        while True:
+            chunk = response.read(chunk_size)
+            if not chunk:
+                break
+            out_file.write(chunk)
+    temp_file.replace(target_file)
+
+
 @st.cache_resource(show_spinner=False)
 def ensure_chroma_ready() -> bool:
     """
     Verifies that the pre-built ChromaDB vector store is present.
     If the deployment container only cloned the Git LFS pointer text file,
-    automatically invokes `git lfs pull` to hydrate the 157.7 MB SQLite binary.
+    hydrates the 157.7 MB SQLite binary directly from GitHub's media CDN.
     Zero embedding computation occurs on container boot.
     """
     sqlite_file = CHROMA_DB_DIR / "chroma.sqlite3"
 
-    # If file is missing or is an unhydrated Git LFS pointer file, pull via git lfs
+    # If file is missing or is an unhydrated Git LFS pointer file, hydrate from LFS CDN
     if not _is_valid_sqlite_db(sqlite_file):
-        with st.spinner("📥 Fetching pre-built ChromaDB vector database via Git LFS (one-time fast download)..."):
+        with st.spinner("📥 Fetching pre-built ChromaDB vector database from Git LFS (~5–10s one-time download)..."):
             try:
-                subprocess.run(["git", "lfs", "install"], cwd=REPO_ROOT, check=False, capture_output=True)
-                pull_res = subprocess.run(["git", "lfs", "pull"], cwd=REPO_ROOT, capture_output=True, text=True)
-                if pull_res.returncode != 0:
-                    st.warning(f"Git LFS pull note: {pull_res.stderr.strip()}")
-            except Exception as e:
-                st.warning(f"Git LFS command execution failed: {e}")
+                _download_lfs_file(sqlite_file, LFS_MEDIA_URL)
+            except Exception as dl_err:
+                # Fallback to git lfs pull if host has git-lfs CLI available
+                try:
+                    subprocess.run(["git", "lfs", "install"], cwd=REPO_ROOT, check=False, capture_output=True)
+                    subprocess.run(["git", "lfs", "pull"], cwd=REPO_ROOT, check=False, capture_output=True)
+                except Exception:
+                    pass
 
     if not _is_valid_sqlite_db(sqlite_file):
         raise FileNotFoundError(
             f"ChromaDB vector database at {sqlite_file} is missing or is still an unhydrated Git LFS pointer file. "
-            "Please ensure Git LFS is enabled or run 'git lfs pull'."
+            "Please ensure the pre-built vector database is pulled via Git LFS."
         )
 
     # Warm up ChromaDB collection on startup
