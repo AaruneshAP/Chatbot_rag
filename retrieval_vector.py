@@ -36,13 +36,10 @@ def _load_model() -> SentenceTransformer:
 
 
 def _load_collection():
-    global _FALLBACK_COLLECTION
-    if _FALLBACK_COLLECTION is None:
-        if not CHROMA_DB_DIR.exists():
-            raise FileNotFoundError(f"ChromaDB directory not found at {CHROMA_DB_DIR}. Run embed.py first!")
-        client = chromadb.PersistentClient(path=str(CHROMA_DB_DIR), settings=Settings(anonymized_telemetry=False))
-        _FALLBACK_COLLECTION = client.get_collection(name=COLLECTION_NAME)
-    return _FALLBACK_COLLECTION
+    if not CHROMA_DB_DIR.exists():
+        raise FileNotFoundError(f"ChromaDB directory not found at {CHROMA_DB_DIR}. Run embed.py first!")
+    client = chromadb.PersistentClient(path=str(CHROMA_DB_DIR), settings=Settings(anonymized_telemetry=False))
+    return client.get_collection(name=COLLECTION_NAME)
 
 
 try:

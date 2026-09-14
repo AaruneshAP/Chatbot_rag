@@ -152,6 +152,9 @@ ensure_chroma_ready()
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.title("⚙️ RAG Configuration")
+    db_size_bytes = CHROMA_SQLITE_PATH.stat().st_size if CHROMA_SQLITE_PATH.exists() else 0
+    db_status = f"{db_size_bytes / (1024 * 1024):.1f} MB (Hydrated)" if db_size_bytes >= MIN_VALID_SQLITE_BYTES else f"{db_size_bytes} bytes (LFS Pointer)"
+    st.caption(f"🚀 **Build**: `048d3a1` | 🗄️ **ChromaDB**: `{db_status}`")
 
     # Retrieval Method Selector
     retrieval_choice = st.radio(
