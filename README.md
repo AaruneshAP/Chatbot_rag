@@ -459,6 +459,9 @@ The production environment does **not** rely on local `.env` files. Authenticati
    ```
 5. Click **Save**. Streamlit Cloud automatically injects secrets into environment variables and `st.secrets`. `generate.py` seamlessly picks up the key via `os.environ.get("GROQ_API_KEY")` and `st.secrets["GROQ_API_KEY"]`. **Never commit your actual API key to the repository.**
 
+### 3. Automated Keep-Alive Workflow (GitHub Actions)
+Streamlit Community Cloud automatically puts inactive apps to sleep on its free tier after a period of idle time. To ensure the live demo stays continuously warm and responsive for portfolio reviewers and interviewers without incurring cold-boot latency, a scheduled GitHub Actions workflow ([`.github/workflows/keep-alive.yml`](.github/workflows/keep-alive.yml)) runs every 25 minutes (`*/25 * * * *`) to ping the deployment endpoint and prevent container spin-down.
+
 ---
 
 ## 💼 Interview Talking Points / Portfolio Defense

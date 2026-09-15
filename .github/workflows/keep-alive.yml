@@ -1,0 +1,27 @@
+name: Keep Streamlit App Warm
+
+# Streamlit Community Cloud free tier puts apps to sleep after a period of inactivity.
+# This workflow sends periodic HTTP requests every 25 minutes to keep the container warm
+# and responsive for portfolio demos and interviews, preventing idle spin-downs.
+
+on:
+  schedule:
+    # Trigger every 25 minutes
+    - cron: "*/25 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping Streamlit App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Live Application
+        run: |
+          echo "Pinging Streamlit Community Cloud deployment..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 -L "https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/") || true
+          echo "Streamlit App responded with HTTP status: ${HTTP_STATUS:-timeout/error}"
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "App is warm and running normally."
+          else
+            echo "App returned status $HTTP_STATUS (may be waking from cold boot or spinning up). Ping registered."
+          fi
