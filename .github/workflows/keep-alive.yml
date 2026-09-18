@@ -1,27 +1,41 @@
 name: Keep Streamlit App Warm
 
-# Streamlit Community Cloud free tier puts apps to sleep after a period of inactivity.
-# This workflow sends periodic HTTP requests every 25 minutes to keep the container warm
-# and responsive for portfolio demos and interviews, preventing idle spin-downs.
+# Streamlit Community Cloud puts idle free-tier apps to sleep after a period of inactivity.
+# Empirical testing confirmed that plain HTTP pings (e.g., curl) do NOT reset Streamlit Cloud's
+# sleep timer because the platform requires an active WebSocket session (_stcore/stream)
+# or a Git commit pushed to the connected repository to trigger a container refresh/wake.
+# This workflow runs a scheduled commit once daily to reliably keep the deployment active.
 
 on:
   schedule:
-    # Trigger every 25 minutes
-    - cron: "*/25 * * * *"
+    # Run once daily at 06:00 UTC
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  ping:
-    name: Ping Streamlit App
+  keepalive:
+    name: Keep-Alive Scheduled Commit
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Live Application
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Update keep-alive timestamp
         run: |
-          echo "Pinging Streamlit Community Cloud deployment..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 -L "https://chatbotrag-37pbpk8pz8ywzfccn6z2zs.streamlit.app/") || true
-          echo "Streamlit App responded with HTTP status: ${HTTP_STATUS:-timeout/error}"
-          if [ "$HTTP_STATUS" = "200" ]; then
-            echo "App is warm and running normally."
-          else
-            echo "App returned status $HTTP_STATUS (may be waking from cold boot or spinning up). Ping registered."
-          fi
+          mkdir -p .github/keepalive
+          date -u +"%Y-%m-%d %H:%M:%S UTC" > .github/keepalive/last-ping.txt
+          echo "Updated .github/keepalive/last-ping.txt to: $(cat .github/keepalive/last-ping.txt)"
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '.github/keepalive/last-ping.txt'
+          author_name: 'github-actions[bot]'
+          author_email: 'github-actions[bot]@users.noreply.github.com'
+          message: 'chore: keep-alive timestamp update'
+          push: true

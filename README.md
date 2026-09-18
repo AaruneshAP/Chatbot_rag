@@ -459,8 +459,18 @@ The production environment does **not** rely on local `.env` files. Authenticati
    ```
 5. Click **Save**. Streamlit Cloud automatically injects secrets into environment variables and `st.secrets`. `generate.py` seamlessly picks up the key via `os.environ.get("GROQ_API_KEY")` and `st.secrets["GROQ_API_KEY"]`. **Never commit your actual API key to the repository.**
 
-### 3. Automated Keep-Alive Workflow (GitHub Actions)
-Streamlit Community Cloud automatically puts inactive apps to sleep on its free tier after a period of idle time. To ensure the live demo stays continuously warm and responsive for portfolio reviewers and interviewers without incurring cold-boot latency, a scheduled GitHub Actions workflow ([`.github/workflows/keep-alive.yml`](.github/workflows/keep-alive.yml)) runs every 25 minutes (`*/25 * * * *`) to ping the deployment endpoint and prevent container spin-down.
+### 3. Automated Keep-Alive Mechanism: Scheduled Commits vs. HTTP Pings
+
+#### Platform Mechanics: Why Plain HTTP Pings Failed
+Streamlit Community Cloud automatically suspends inactive containers on its free tier to preserve shared cloud resources. While common advice recommends configuring an uptime monitor or scheduled curl cron to ping the application URL, empirical testing revealed that **plain HTTP pings do NOT reset Streamlit Cloud's sleep timer**:
+- **Reverse Proxy vs. Streamlit Engine**: A standard HTTP request (`GET /` or `curl -I`) is terminated by Streamlit Cloud's front-facing edge reverse proxy/auth layer (returning `303 See Other` or `200 OK`), without ever instantiating an active runtime connection.
+- **WebSocket Activity Requirement**: Streamlit is fundamentally a stateful WebSocket-driven framework (`_stcore/stream`). The platform's sleep detection logic actively monitors WebSocket handshake activity from a real browser session; headless HTTP requests without a persistent WebSocket stream are completely ignored by the container sleep watchdog.
+
+#### The Architectural Solution: Scheduled Bot Commits
+Streamlit Community Cloud continuously monitors the connected GitHub repository for changes via webhooks. Pushing a real commit to the tracked branch reliably signals deployment activity, triggering container refresh and resetting the dormancy counter without requiring complex headless browser orchestration:
+- **Scheduled Workflow ([`.github/workflows/keep-alive.yml`](.github/workflows/keep-alive.yml))**: A lightweight GitHub Actions workflow runs once daily at 06:00 UTC (`0 6 * * *`) alongside manual on-demand triggers (`workflow_dispatch`).
+- **Minimal Metadata Update**: The job appends the current UTC timestamp to [`.github/keepalive/last-ping.txt`](.github/keepalive/last-ping.txt).
+- **Clean Commit History**: Commits and pushes the file change using the automated bot identity (`github-actions[bot]`) with the commit message `chore: keep-alive timestamp update`, preserving clean, readable development logs while keeping the cloud deployment permanently responsive.
 
 ---
 
